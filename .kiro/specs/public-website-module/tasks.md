@@ -235,14 +235,16 @@
     - Add CSS custom properties for theming
     - _Requirements: 4.5, 7.2_
 
-  - [-] 8.2 Add animations and micro-interactions
+  - [x] 8.2 Add animations and micro-interactions
+
 
     - Implement smooth page transitions
     - Add hover effects and loading animations
     - Create engaging scroll-triggered animations
     - _Requirements: 4.1, 4.3_
 
-  - [ ] 8.3 Optimize for mobile and responsive design
+  - [-] 8.3 Optimize for mobile and responsive design
+
     - Ensure perfect mobile experience
     - Implement touch-friendly interactions
     - Add responsive images and layouts
