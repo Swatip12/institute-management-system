@@ -1,28 +1,40 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ApiService } from '../../../services/api.service';
 import { LoadingService } from '../../../services/loading.service';
 import { AnalyticsService } from '../../../services/analytics.service';
+import { ScrollAnimationService } from '../../../services/scroll-animation.service';
+import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
 import { InstituteInfo } from '../../../models/institute-info.model';
 
 @Component({
   selector: 'app-hero-section',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ScrollRevealDirective],
   templateUrl: './hero-section.component.html',
   styleUrl: './hero-section.component.scss'
 })
-export class HeroSectionComponent implements OnInit {
+export class HeroSectionComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly apiService = inject(ApiService);
   private readonly loadingService = inject(LoadingService);
   private readonly analyticsService = inject(AnalyticsService);
+  private readonly scrollAnimationService = inject(ScrollAnimationService);
 
   instituteInfo: InstituteInfo | null = null;
   isLoading = false;
 
   ngOnInit(): void {
     this.loadInstituteInfo();
+  }
+
+  ngAfterViewInit(): void {
+    // Initialize scroll animations for all scroll-reveal elements
+    this.scrollAnimationService.observeAllScrollRevealElements();
+  }
+
+  ngOnDestroy(): void {
+    // Cleanup is handled by the scroll animation service
   }
 
   private loadInstituteInfo(): void {
