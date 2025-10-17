@@ -1,4 +1,5 @@
 import { Injectable, signal } from '@angular/core';
+import { finalize } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -26,21 +27,8 @@ export class LoadingService {
     return (source: any) => {
       this.show(message);
       return source.pipe(
-        // Using finalize to ensure loading is hidden regardless of success/error
-        (source: any) => {
-          return new Promise((resolve, reject) => {
-            source.subscribe({
-              next: (value: T) => {
-                this.hide();
-                resolve(value);
-              },
-              error: (error: any) => {
-                this.hide();
-                reject(error);
-              }
-            });
-          });
-        }
+        // Using finalize operator to ensure loading is hidden regardless of success/error
+        finalize(() => this.hide())
       );
     };
   }

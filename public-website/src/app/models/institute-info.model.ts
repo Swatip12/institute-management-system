@@ -38,11 +38,35 @@ export interface InstituteInfo {
   description: string;
   mission: string;
   vision: string;
-  achievements: Achievement[];
-  testimonials: Testimonial[];
+  achievements?: Achievement[];
+  testimonials?: Testimonial[];
   contactInfo: ContactInfo;
   establishedYear?: number;
-  studentsCount?: number;
-  coursesCount?: number;
-  instructorsCount?: number;
+  statistics?: {
+    totalStudents: number;
+    totalCourses: number;
+    yearsOfExperience: number;
+    successRate: number;
+  };
+}
+
+// Backend response structure
+export interface InstituteInfoResponse {
+  name: string;
+  tagline: string;
+  description: string;
+  mission: string;
+  vision: string;
+  contactInfo: {
+    email: string;
+    phone: string;
+    address: string;
+    officeHours: string;
+  };
+  statistics: {
+    totalStudents: number;
+    totalCourses: number;
+    yearsOfExperience: number;
+    successRate: number;
+  };
 }

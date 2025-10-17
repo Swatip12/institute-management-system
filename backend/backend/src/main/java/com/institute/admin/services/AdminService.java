@@ -131,4 +131,22 @@ public class AdminService {
     public Optional<Message> getMessageById(Long id) {
         return messageRepository.findById(id);
     }
+
+    /**
+     * Adds a new message to the database
+     * @param message The message to add
+     * @return The saved message with generated ID
+     */
+    public Message addMessage(Message message) {
+        if (message.getSenderName() == null || message.getSenderName().trim().isEmpty()) {
+            throw new IllegalArgumentException("Sender name cannot be null or empty");
+        }
+        if (message.getEmail() == null || message.getEmail().trim().isEmpty()) {
+            throw new IllegalArgumentException("Email cannot be null or empty");
+        }
+        if (message.getContent() == null || message.getContent().trim().isEmpty()) {
+            throw new IllegalArgumentException("Message content cannot be null or empty");
+        }
+        return messageRepository.save(message);
+    }
 }

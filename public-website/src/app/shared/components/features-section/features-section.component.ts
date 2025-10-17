@@ -115,14 +115,11 @@ export class FeaturesSectionComponent implements OnInit {
   }
 
   private updateStatisticsFromInfo(info: InstituteInfo): void {
-    if (info.studentsCount) {
-      this.statistics[0].value = `${info.studentsCount}+`;
-    }
-    if (info.coursesCount) {
-      this.statistics[1].value = `${info.coursesCount}+`;
-    }
-    if (info.instructorsCount) {
-      this.statistics[3].value = `${info.instructorsCount}+`;
+    if (info.statistics) {
+      this.statistics[0].value = `${info.statistics.totalStudents}+`;
+      this.statistics[1].value = `${info.statistics.totalCourses}+`;
+      this.statistics[2].value = `${info.statistics.successRate}%`;
+      // Keep the default instructor count since it's not in the backend response
     }
   }
 

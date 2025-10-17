@@ -27,6 +27,11 @@ export const routes: Routes = [
     title: 'Contact - Institute'
   },
   {
+    path: 'test-api',
+    loadComponent: () => import('./test-api-integration.component').then(m => m.TestApiIntegrationComponent),
+    title: 'API Integration Test - Institute'
+  },
+  {
     path: '404',
     loadComponent: () => import('./pages/not-found/not-found.component').then(m => m.NotFoundComponent),
     title: 'Page Not Found - Institute'

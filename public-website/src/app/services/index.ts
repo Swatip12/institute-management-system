@@ -2,3 +2,4 @@
 export * from './api.service';
 export * from './loading.service';
 export * from './error-handler.service';
+export * from './content-config.service';

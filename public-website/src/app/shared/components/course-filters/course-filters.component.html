@@ -18,7 +18,7 @@
       </div>
       <button 
         *ngIf="filterValues.searchTerm" 
-        (click)="onSearchInput({target: {value: ''}} as any)"
+        (click)="clearSearch()"
         class="clear-search-btn"
         type="button"
       >
@@ -152,7 +152,7 @@
       <div class="filter-tags">
         <span class="filter-tag" *ngIf="filterValues.searchTerm">
           Search: "{{ filterValues.searchTerm }}"
-          <button (click)="onSearchInput({target: {value: ''}} as any)" class="remove-filter" type="button">×</button>
+          <button (click)="clearSearch()" class="remove-filter" type="button">×</button>
         </span>
         
         <span class="filter-tag" *ngIf="filterValues.selectedCategory">

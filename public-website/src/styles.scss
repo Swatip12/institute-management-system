@@ -91,3 +91,27 @@ html {
     scroll-behavior: auto !important;
   }
 }
+// Basic icon classes (using Unicode symbols as placeholders)
+.icon-building::before { content: '🏢'; }
+.icon-target::before { content: '🎯'; }
+.icon-eye::before { content: '👁️'; }
+.icon-user::before { content: '👤'; }
+.icon-star::before { content: '⭐'; }
+.icon-lightbulb::before { content: '💡'; }
+.icon-shield::before { content: '🛡️'; }
+.icon-graduation-cap::before { content: '🎓'; }
+.icon-users::before { content: '👥'; }
+.icon-book::before { content: '📚'; }
+.icon-award::before { content: '🏆'; }
+.icon-briefcase::before { content: '💼'; }
+.icon-handshake::before { content: '🤝'; }
+.icon-monitor::before { content: '💻'; }
+
+// Icon base styles
+[class*="icon-"] {
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+}

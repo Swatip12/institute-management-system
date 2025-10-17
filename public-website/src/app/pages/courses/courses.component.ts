@@ -58,24 +58,28 @@ export class CoursesComponent implements OnInit {
     this.loadCourses();
   }
 
-  async loadCourses() {
+  loadCourses() {
     this.isLoading = true;
     this.error = null;
     this.loadingService.show('Loading courses...');
 
-    try {
-      this.allCourses = await this.apiService.getCourses().toPromise() || [];
-      this.extractFilterOptions();
-      this.generateSearchSuggestions();
-      this.applyFilters();
-    } catch (error) {
-      this.error = error instanceof Error ? error.message : 'Failed to load courses';
-      this.errorHandler.showError(this.error);
-      console.error('Error loading courses:', error);
-    } finally {
-      this.isLoading = false;
-      this.loadingService.hide();
-    }
+    this.apiService.getCourses().subscribe({
+      next: (courses) => {
+        this.allCourses = courses || [];
+        this.extractFilterOptions();
+        this.generateSearchSuggestions();
+        this.applyFilters();
+        this.isLoading = false;
+        this.loadingService.hide();
+      },
+      error: (error) => {
+        this.error = error instanceof Error ? error.message : 'Failed to load courses';
+        this.errorHandler.showError(this.error);
+        console.error('Error loading courses:', error);
+        this.isLoading = false;
+        this.loadingService.hide();
+      }
+    });
   }
 
   private extractFilterOptions() {

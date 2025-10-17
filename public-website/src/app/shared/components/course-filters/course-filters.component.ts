@@ -93,6 +93,17 @@ export class CourseFiltersComponent {
     this.emitFilterChange();
   }
 
+  clearSearch() {
+    // Clear search timeout
+    if (this.searchTimeout) {
+      clearTimeout(this.searchTimeout);
+    }
+
+    this.filterValues.searchTerm = '';
+    this.searchChange.emit('');
+    this.emitFilterChange();
+  }
+
   onClearFilters() {
     // Clear search timeout
     if (this.searchTimeout) {

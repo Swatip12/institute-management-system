@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { Course } from '../../../models/course.model';
+import { Course, parseFeatures, parsePrerequisites } from '../../../models/course.model';
 import { ApiService } from '../../../services/api.service';
 import { LoadingService } from '../../../services/loading.service';
 import { ErrorHandlerService } from '../../../services/error-handler.service';
@@ -39,30 +39,34 @@ export class CourseDetailComponent implements OnInit {
     }
   }
 
-  async loadCourse() {
+  loadCourse() {
     if (!this.courseId) return;
 
     this.isLoading = true;
     this.error = null;
     this.loadingService.show('Loading course details...');
 
-    try {
-      const courseData = await this.apiService.getCourse(this.courseId).toPromise();
-      this.course = courseData || null;
-      if (this.course) {
-        this.courseFeatures = this.course.features || [];
-        this.coursePrerequisites = this.course.prerequisites || [];
-      } else {
-        this.error = 'Course not found';
+    this.apiService.getCourse(this.courseId).subscribe({
+      next: (courseData) => {
+        this.course = courseData || null;
+        if (this.course) {
+          // Parse string-based features and prerequisites to arrays
+          this.courseFeatures = parseFeatures(this.course.features);
+          this.coursePrerequisites = parsePrerequisites(this.course.prerequisites);
+        } else {
+          this.error = 'Course not found';
+        }
+        this.isLoading = false;
+        this.loadingService.hide();
+      },
+      error: (error) => {
+        this.error = error instanceof Error ? error.message : 'Failed to load course';
+        this.errorHandler.showError(this.error);
+        console.error('Error loading course:', error);
+        this.isLoading = false;
+        this.loadingService.hide();
       }
-    } catch (error) {
-      this.error = error instanceof Error ? error.message : 'Failed to load course';
-      this.errorHandler.showError(this.error);
-      console.error('Error loading course:', error);
-    } finally {
-      this.isLoading = false;
-      this.loadingService.hide();
-    }
+    });
   }
 
   goBack() {
