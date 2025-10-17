@@ -104,6 +104,9 @@ import { Course } from '../../../models/course.model';
 export class CourseListComponent implements OnInit {
   courses: Course[] = [];
   loading = false;
+  showTable = false;
+  searchTerm = '';
+  selectedCategory = 'all';
   displayedColumns: string[] = ['id', 'name', 'description', 'actions'];
 
   constructor(
