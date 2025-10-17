@@ -1,0 +1,81 @@
+<section class="hero-section">
+  <div class="hero-background">
+    <div class="animated-shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+    </div>
+  </div>
+  
+  <div class="hero-content">
+    <div class="container">
+      <div class="hero-text" [class.loading]="isLoading">
+        <h1 class="hero-title">
+          <span class="institute-name">{{ instituteInfo?.name || 'Excellence Institute' }}</span>
+          <span class="tagline">{{ instituteInfo?.tagline || 'Empowering Minds, Shaping Futures' }}</span>
+        </h1>
+        
+        <p class="hero-description">
+          {{ instituteInfo?.description || 'Join thousands of students who have transformed their careers with our comprehensive courses and expert instruction.' }}
+        </p>
+        
+        <div class="hero-actions">
+          <a 
+            routerLink="/courses" 
+            class="btn btn-primary btn-large"
+            (click)="trackHeroCtaClick('explore_courses')"
+          >
+            <span>Explore Courses</span>
+            <i class="icon-arrow-right"></i>
+          </a>
+          <a 
+            routerLink="/contact" 
+            class="btn btn-secondary btn-large"
+            (click)="trackHeroCtaClick('get_started')"
+          >
+            <span>Get Started</span>
+          </a>
+        </div>
+        
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-number">{{ instituteInfo?.studentsCount || '5000+' }}</span>
+            <span class="stat-label">Students</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">{{ instituteInfo?.coursesCount || '50+' }}</span>
+            <span class="stat-label">Courses</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">{{ instituteInfo?.instructorsCount || '25+' }}</span>
+            <span class="stat-label">Instructors</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="hero-image">
+        <div class="image-container">
+          <div class="floating-elements">
+            <div class="floating-card card-1">
+              <div class="card-icon">📚</div>
+              <div class="card-text">Quality Education</div>
+            </div>
+            <div class="floating-card card-2">
+              <div class="card-icon">🎓</div>
+              <div class="card-text">Expert Instructors</div>
+            </div>
+            <div class="floating-card card-3">
+              <div class="card-icon">💼</div>
+              <div class="card-text">Career Growth</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="scroll-indicator">
+    <div class="scroll-arrow"></div>
+    <span>Scroll to explore</span>
+  </div>
+</section>
