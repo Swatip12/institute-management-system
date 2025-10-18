@@ -220,11 +220,11 @@ describe('AboutComponent', () => {
   });
 
   it('should update stats section with API statistics', () => {
-    const sectionsWithStats = [
+    const sectionsWithStats: ContentSection[] = [
       ...mockContentSections,
       {
         id: 'stats',
-        type: 'stats',
+        type: 'stats' as const,
         title: 'Our Statistics',
         content: '',
         order: 3,
@@ -239,9 +239,9 @@ describe('AboutComponent', () => {
     fixture.detectChanges();
 
     const statsSection = component.contentSections.find(s => s.id === 'stats');
-    expect(statsSection?.metadata?.stats).toBeDefined();
-    expect(statsSection?.metadata?.stats.length).toBe(4);
-    expect(statsSection?.metadata?.stats[0].label).toBe('Years of Excellence');
-    expect(statsSection?.metadata?.stats[0].value).toBe('10+');
+    expect(statsSection?.metadata?.['stats']).toBeDefined();
+    expect(statsSection?.metadata?.['stats'].length).toBe(4);
+    expect(statsSection?.metadata?.['stats'][0].label).toBe('Years of Excellence');
+    expect(statsSection?.metadata?.['stats'][0].value).toBe('10+');
   });
 });

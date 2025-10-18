@@ -55,7 +55,7 @@ export class PerformanceService {
     this.observePerformanceEntry('first-input', (entries) => {
       const fidEntry = entries[0];
       if (fidEntry) {
-        this.metrics.firstInputDelay = fidEntry.processingStart - fidEntry.startTime;
+        this.metrics.firstInputDelay = (fidEntry as any).processingStart - fidEntry.startTime;
       }
     });
 

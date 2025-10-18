@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { CourseSearchComponent } from './course-search.component';
+import { CourseSearchComponent, SearchSuggestion } from './course-search.component';
 
 describe('CourseSearchComponent', () => {
   let component: CourseSearchComponent;
@@ -39,7 +39,7 @@ describe('CourseSearchComponent', () => {
     component.searchTerm = 'test';
     component.showSuggestions = true;
     component.suggestions = [
-      { type: 'course', value: 'Test Course', label: 'Test Course' }
+      { type: 'course', value: 'Test Course', label: 'Test Course' } as SearchSuggestion
     ];
     
     component.onSearchFocus();
@@ -47,7 +47,7 @@ describe('CourseSearchComponent', () => {
   });
 
   it('should select suggestion correctly', () => {
-    const suggestion = { type: 'course', value: 'Test Course', label: 'Test Course' };
+    const suggestion: SearchSuggestion = { type: 'course', value: 'Test Course', label: 'Test Course' };
     spyOn(component.suggestionSelect, 'emit');
     
     component.selectSuggestion(suggestion);

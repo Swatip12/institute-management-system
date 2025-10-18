@@ -189,7 +189,7 @@ describe('ContactComponent', () => {
   });
 
   it('should handle contact method clicks', () => {
-    spyOn(window.location, 'href', 'set');
+    spyOnProperty(window.location, 'href', 'set');
     spyOn(window, 'open');
 
     component.handleContactClick('email');
