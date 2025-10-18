@@ -47,7 +47,11 @@
                   "maximumError": "8kB"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "serviceWorker": "ngsw-config.json",
+              "namedChunks": false,
+              "extractLicenses": true,
+              "optimization": true
             },
             "development": {
               "optimization": false,

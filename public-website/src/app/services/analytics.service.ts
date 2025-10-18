@@ -1,216 +1,266 @@
 import { Injectable } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
+
+declare let gtag: Function;
 
 export interface AnalyticsEvent {
   action: string;
   category: string;
   label?: string;
   value?: number;
-  location?: string;
+  custom_parameters?: { [key: string]: any };
 }
 
 export interface ConversionEvent {
-  type: 'cta_click' | 'form_submission' | 'course_view' | 'page_view';
-  action: string;
-  location: string;
-  timestamp: Date;
-  metadata?: Record<string, any>;
+  event_name: string;
+  currency?: string;
+  value?: number;
+  transaction_id?: string;
+  items?: any[];
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class AnalyticsService {
-  private events: ConversionEvent[] = [];
-  private isEnabled = true;
+  private isInitialized = false;
+  private gaId = 'GA_MEASUREMENT_ID'; // Replace with actual GA4 Measurement ID
 
-  constructor() {
-    // Initialize analytics tracking
-    this.initializeAnalytics();
+  constructor(private router: Router) {
+    this.initializeGoogleAnalytics();
+    this.trackPageViews();
   }
 
-  private initializeAnalytics(): void {
-    // In a real implementation, this would initialize Google Analytics, Adobe Analytics, etc.
-    console.log('Analytics service initialized');
-    
-    // Track initial page load
-    this.trackPageView(window.location.pathname);
-  }
+  private initializeGoogleAnalytics(): void {
+    // Load Google Analytics script
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${this.gaId}`;
+    document.head.appendChild(script);
 
-  /**
-   * Track CTA button clicks for conversion analysis
-   */
-  trackCtaClick(action: string, location: string, metadata?: Record<string, any>): void {
-    if (!this.isEnabled) return;
+    // Initialize gtag
+    script.onload = () => {
+      (window as any).dataLayer = (window as any).dataLayer || [];
+      (window as any).gtag = function() {
+        (window as any).dataLayer.push(arguments);
+      };
 
-    const event: ConversionEvent = {
-      type: 'cta_click',
-      action,
-      location,
-      timestamp: new Date(),
-      metadata
-    };
+      gtag('js', new Date());
+      gtag('config', this.gaId, {
+        page_title: document.title,
+        page_location: window.location.href
+      });
 
-    this.recordEvent(event);
-
-    // Send to analytics platform (placeholder)
-    this.sendToAnalytics({
-      action: 'cta_click',
-      category: 'conversion',
-      label: `${action}_from_${location}`,
-      location
-    });
-
-    console.log(`CTA Click Tracked: ${action} from ${location}`, metadata);
-  }
-
-  /**
-   * Track form submissions
-   */
-  trackFormSubmission(formType: string, location: string, success: boolean): void {
-    if (!this.isEnabled) return;
-
-    const event: ConversionEvent = {
-      type: 'form_submission',
-      action: `${formType}_${success ? 'success' : 'error'}`,
-      location,
-      timestamp: new Date(),
-      metadata: { formType, success }
-    };
-
-    this.recordEvent(event);
-
-    this.sendToAnalytics({
-      action: 'form_submission',
-      category: 'conversion',
-      label: `${formType}_${success ? 'success' : 'error'}`,
-      value: success ? 1 : 0,
-      location
-    });
-
-    console.log(`Form Submission Tracked: ${formType} - ${success ? 'Success' : 'Error'}`);
-  }
-
-  /**
-   * Track course page views
-   */
-  trackCourseView(courseId: number, courseName: string): void {
-    if (!this.isEnabled) return;
-
-    const event: ConversionEvent = {
-      type: 'course_view',
-      action: 'course_viewed',
-      location: `/courses/${courseId}`,
-      timestamp: new Date(),
-      metadata: { courseId, courseName }
-    };
-
-    this.recordEvent(event);
-
-    this.sendToAnalytics({
-      action: 'course_view',
-      category: 'engagement',
-      label: courseName,
-      value: courseId,
-      location: `/courses/${courseId}`
-    });
-
-    console.log(`Course View Tracked: ${courseName} (ID: ${courseId})`);
-  }
-
-  /**
-   * Track page views
-   */
-  trackPageView(path: string): void {
-    if (!this.isEnabled) return;
-
-    const event: ConversionEvent = {
-      type: 'page_view',
-      action: 'page_viewed',
-      location: path,
-      timestamp: new Date(),
-      metadata: { path }
-    };
-
-    this.recordEvent(event);
-
-    this.sendToAnalytics({
-      action: 'page_view',
-      category: 'navigation',
-      label: path,
-      location: path
-    });
-
-    console.log(`Page View Tracked: ${path}`);
-  }
-
-  /**
-   * Get conversion metrics for analysis
-   */
-  getConversionMetrics(): {
-    totalCtaClicks: number;
-    totalFormSubmissions: number;
-    totalCourseViews: number;
-    totalPageViews: number;
-    conversionsByLocation: Record<string, number>;
-    recentEvents: ConversionEvent[];
-  } {
-    const ctaClicks = this.events.filter(e => e.type === 'cta_click').length;
-    const formSubmissions = this.events.filter(e => e.type === 'form_submission').length;
-    const courseViews = this.events.filter(e => e.type === 'course_view').length;
-    const pageViews = this.events.filter(e => e.type === 'page_view').length;
-
-    const conversionsByLocation: Record<string, number> = {};
-    this.events.forEach(event => {
-      if (event.type === 'cta_click') {
-        conversionsByLocation[event.location] = (conversionsByLocation[event.location] || 0) + 1;
-      }
-    });
-
-    return {
-      totalCtaClicks: ctaClicks,
-      totalFormSubmissions: formSubmissions,
-      totalCourseViews: courseViews,
-      totalPageViews: pageViews,
-      conversionsByLocation,
-      recentEvents: this.events.slice(-10) // Last 10 events
+      this.isInitialized = true;
     };
   }
 
-  /**
-   * Enable or disable analytics tracking
-   */
-  setEnabled(enabled: boolean): void {
-    this.isEnabled = enabled;
-    console.log(`Analytics tracking ${enabled ? 'enabled' : 'disabled'}`);
+  private trackPageViews(): void {
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        if (this.isInitialized) {
+          gtag('config', this.gaId, {
+            page_path: event.urlAfterRedirects,
+            page_title: document.title,
+            page_location: window.location.href
+          });
+        }
+      });
   }
 
-  private recordEvent(event: ConversionEvent): void {
-    this.events.push(event);
-    
-    // Keep only last 1000 events to prevent memory issues
-    if (this.events.length > 1000) {
-      this.events = this.events.slice(-1000);
-    }
-  }
-
-  private sendToAnalytics(event: AnalyticsEvent): void {
-    // In a real implementation, this would send to Google Analytics, Adobe Analytics, etc.
-    // Example for Google Analytics 4:
-    // gtag('event', event.action, {
-    //   event_category: event.category,
-    //   event_label: event.label,
-    //   value: event.value,
-    //   custom_parameter_location: event.location
-    // });
-
-    // For now, we'll just log to console and store locally
-    if (typeof window !== 'undefined' && (window as any).gtag) {
-      (window as any).gtag('event', event.action, {
+  trackEvent(event: AnalyticsEvent): void {
+    if (this.isInitialized) {
+      gtag('event', event.action, {
         event_category: event.category,
         event_label: event.label,
         value: event.value,
-        custom_parameter_location: event.location
+        ...event.custom_parameters
       });
+    }
+  }
+
+  trackConversion(conversion: ConversionEvent): void {
+    if (this.isInitialized) {
+      gtag('event', conversion.event_name, {
+        currency: conversion.currency,
+        value: conversion.value,
+        transaction_id: conversion.transaction_id,
+        items: conversion.items
+      });
+    }
+  }
+
+  // Course-specific tracking
+  trackCourseView(courseId: string, courseName: string): void {
+    this.trackEvent({
+      action: 'view_course',
+      category: 'courses',
+      label: courseName,
+      custom_parameters: {
+        course_id: courseId,
+        course_name: courseName
+      }
+    });
+  }
+
+  trackCourseInterest(courseId: string, courseName: string): void {
+    this.trackEvent({
+      action: 'show_interest',
+      category: 'courses',
+      label: courseName,
+      custom_parameters: {
+        course_id: courseId,
+        course_name: courseName
+      }
+    });
+  }
+
+  // Contact form tracking
+  trackContactFormSubmission(formType: string): void {
+    this.trackEvent({
+      action: 'form_submit',
+      category: 'contact',
+      label: formType
+    });
+
+    // Track as conversion
+    this.trackConversion({
+      event_name: 'generate_lead',
+      value: 1
+    });
+  }
+
+  trackContactFormStart(formType: string): void {
+    this.trackEvent({
+      action: 'form_start',
+      category: 'contact',
+      label: formType
+    });
+  }
+
+  // Search tracking
+  trackSearch(searchTerm: string, resultsCount: number): void {
+    this.trackEvent({
+      action: 'search',
+      category: 'site_search',
+      label: searchTerm,
+      value: resultsCount,
+      custom_parameters: {
+        search_term: searchTerm,
+        results_count: resultsCount
+      }
+    });
+  }
+
+  // Navigation tracking
+  trackNavigation(destination: string, source: string): void {
+    this.trackEvent({
+      action: 'navigate',
+      category: 'navigation',
+      label: `${source} -> ${destination}`,
+      custom_parameters: {
+        destination,
+        source
+      }
+    });
+  }
+
+  // Performance tracking
+  trackPerformance(metricName: string, value: number, unit: string = 'ms'): void {
+    this.trackEvent({
+      action: 'performance_metric',
+      category: 'performance',
+      label: metricName,
+      value: Math.round(value),
+      custom_parameters: {
+        metric_name: metricName,
+        metric_value: value,
+        unit
+      }
+    });
+  }
+
+  // Error tracking
+  trackError(error: string, location: string, severity: 'low' | 'medium' | 'high' = 'medium'): void {
+    this.trackEvent({
+      action: 'error',
+      category: 'errors',
+      label: error,
+      custom_parameters: {
+        error_message: error,
+        error_location: location,
+        severity
+      }
+    });
+  }
+
+  // User engagement tracking
+  trackEngagement(action: string, element: string, duration?: number): void {
+    this.trackEvent({
+      action: 'engagement',
+      category: 'user_engagement',
+      label: `${action}_${element}`,
+      value: duration,
+      custom_parameters: {
+        engagement_action: action,
+        element,
+        duration
+      }
+    });
+  }
+
+  // CTA click tracking (alias for trackEngagement)
+  trackCtaClick(action: string, location: string, metadata?: any): void {
+    this.trackEvent({
+      action: 'cta_click',
+      category: 'cta',
+      label: `${action}_${location}`,
+      custom_parameters: {
+        cta_action: action,
+        location,
+        ...metadata
+      }
+    });
+  }
+
+  // Form submission tracking
+  trackFormSubmission(formType: string, location: string, formData?: any): void {
+    this.trackEvent({
+      action: 'form_submit',
+      category: 'forms',
+      label: `${formType}_${location}`,
+      custom_parameters: {
+        form_type: formType,
+        location,
+        form_data: formData
+      }
+    });
+  }
+
+  // Conversion metrics (placeholder)
+  getConversionMetrics(): any {
+    return {
+      totalConversions: 0,
+      conversionRate: 0,
+      topConversions: []
+    };
+  }
+
+  // Custom dimensions
+  setCustomDimension(index: number, value: string): void {
+    if (this.isInitialized) {
+      gtag('config', this.gaId, {
+        [`custom_map.dimension${index}`]: value
+      });
+    }
+  }
+
+  // User properties
+  setUserProperty(propertyName: string, value: string): void {
+    if (this.isInitialized) {
+      gtag('set', { [propertyName]: value });
     }
   }
 }
