@@ -39,19 +39,19 @@
         <p class="hero-tagline">{{ instituteInfo?.tagline || 'Excellence in Education' }}</p>
         <div class="hero-stats" *ngIf="instituteInfo?.statistics">
           <div class="stat-item">
-            <span class="stat-number">{{ instituteInfo.statistics.yearsOfExperience }}+</span>
+            <span class="stat-number">{{ instituteInfo?.statistics?.yearsOfExperience }}+</span>
             <span class="stat-label">Years of Excellence</span>
           </div>
           <div class="stat-item">
-            <span class="stat-number">{{ instituteInfo.statistics.totalStudents }}+</span>
+            <span class="stat-number">{{ instituteInfo?.statistics?.totalStudents }}+</span>
             <span class="stat-label">Students Trained</span>
           </div>
           <div class="stat-item">
-            <span class="stat-number">{{ instituteInfo.statistics.totalCourses }}+</span>
+            <span class="stat-number">{{ instituteInfo?.statistics?.totalCourses }}+</span>
             <span class="stat-label">Courses Offered</span>
           </div>
           <div class="stat-item">
-            <span class="stat-number">{{ instituteInfo.statistics.successRate }}%</span>
+            <span class="stat-number">{{ instituteInfo?.statistics?.successRate }}%</span>
             <span class="stat-label">Success Rate</span>
           </div>
         </div>
@@ -70,7 +70,7 @@
             <p class="story-description">{{ instituteInfo?.description || 'We are committed to providing quality education and training to help students achieve their career goals.' }}</p>
             <div class="established-info" *ngIf="instituteInfo?.establishedYear">
               <span class="established-label">Established in</span>
-              <span class="established-year">{{ instituteInfo.establishedYear }}</span>
+              <span class="established-year">{{ instituteInfo?.establishedYear }}</span>
             </div>
           </div>
           <div class="story-image">

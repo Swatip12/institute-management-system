@@ -1,4 +1,7 @@
-import { Injectable, ErrorHandler } from '@angular/core';
+import { Injectable, ErrorHandler, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { catchError, of } from 'rxjs';
+import { environment } from '../../environments/environment';
 import { AnalyticsService } from './analytics.service';
 import { PerformanceService } from './performance.service';
 
@@ -25,14 +28,22 @@ export interface PerformanceReport {
   providedIn: 'root'
 })
 export class MonitoringService implements ErrorHandler {
+  private readonly http = inject(HttpClient);
+  private readonly apiUrl = environment.apiUrl;
+  private readonly enableErrorTracking = environment.enableErrorTracking;
+  private readonly enableAnalytics = environment.enableAnalytics;
+  private readonly version = environment.version;
+  
   private errorQueue: ErrorReport[] = [];
   private performanceQueue: PerformanceReport[] = [];
   private maxQueueSize = 50;
+  private sessionId: string;
 
   constructor(
     private analytics: AnalyticsService,
     private performance: PerformanceService
   ) {
+    this.sessionId = this.generateSessionId();
     this.initializeMonitoring();
   }
 
@@ -116,22 +127,23 @@ export class MonitoringService implements ErrorHandler {
         });
 
         // Track key metrics in analytics
-        this.analytics.trackPerformance('page_load_time', metrics.loadTime);
-        this.analytics.trackPerformance('dom_content_loaded', metrics.domContentLoaded);
-        
-        if (metrics.firstContentfulPaint) {
-          this.analytics.trackPerformance('first_contentful_paint', metrics.firstContentfulPaint);
+        if (metrics.ttfb) {
+          this.analytics.trackPerformance('time_to_first_byte', metrics.ttfb);
         }
         
-        if (metrics.largestContentfulPaint) {
-          this.analytics.trackPerformance('largest_contentful_paint', metrics.largestContentfulPaint);
+        if (metrics.fcp) {
+          this.analytics.trackPerformance('first_contentful_paint', metrics.fcp);
+        }
+        
+        if (metrics.lcp) {
+          this.analytics.trackPerformance('largest_contentful_paint', metrics.lcp);
         }
       }, 1000);
     });
 
     // Monitor resource performance
     setInterval(() => {
-      this.performance.analyzeResourcePerformance();
+      this.performance.measureResourceTiming();
     }, 60000); // Every minute
   }
 
@@ -156,45 +168,95 @@ export class MonitoringService implements ErrorHandler {
   }
 
   private sendErrorReports(errors: ErrorReport[]): void {
-    // In a real application, you would send these to your monitoring service
-    // For now, we'll just track them in analytics
-    errors.forEach(error => {
-      this.analytics.trackEvent({
-        action: 'error_report',
-        category: 'monitoring',
-        label: error.message,
-        custom_parameters: {
-          stack: error.stack,
-          url: error.url,
-          line_number: error.lineNumber,
-          column_number: error.columnNumber,
-          timestamp: error.timestamp.toISOString(),
-          user_agent: error.userAgent
-        }
-      });
+    if (!this.enableErrorTracking) return;
+
+    // Send to backend monitoring service
+    const errorData = {
+      errors: errors.map(error => ({
+        ...error,
+        sessionId: this.sessionId,
+        version: this.version,
+        severity: this.getErrorSeverity(error.message)
+      })),
+      timestamp: new Date().toISOString()
+    };
+
+    this.http.post(`${this.apiUrl}/monitoring/errors/batch`, errorData).pipe(
+      catchError(err => {
+        console.error('Failed to send error reports to backend:', err);
+        // Fallback to local storage
+        this.storeErrorsLocally(errors);
+        return of(null);
+      })
+    ).subscribe({
+      next: () => {
+        console.log(`Sent ${errors.length} error reports to monitoring service`);
+      }
     });
 
-    console.log(`Sent ${errors.length} error reports to monitoring service`);
+    // Also track in analytics if enabled
+    if (this.enableAnalytics) {
+      errors.forEach(error => {
+        this.analytics.trackEvent({
+          action: 'error_report',
+          category: 'monitoring',
+          label: error.message,
+          custom_parameters: {
+            stack: error.stack,
+            url: error.url,
+            line_number: error.lineNumber,
+            column_number: error.columnNumber,
+            timestamp: error.timestamp.toISOString(),
+            user_agent: error.userAgent,
+            session_id: this.sessionId,
+            version: this.version
+          }
+        });
+      });
+    }
   }
 
   private sendPerformanceReports(reports: PerformanceReport[]): void {
-    // In a real application, you would send these to your monitoring service
-    reports.forEach(report => {
-      this.analytics.trackEvent({
-        action: 'performance_report',
-        category: 'monitoring',
-        label: 'page_performance',
-        custom_parameters: {
-          metrics: report.metrics,
-          url: report.url,
-          timestamp: report.timestamp.toISOString(),
-          user_agent: report.userAgent,
-          connection_type: report.connectionType
-        }
-      });
+    // Send to backend monitoring service
+    const performanceData = {
+      reports: reports.map(report => ({
+        ...report,
+        sessionId: this.sessionId,
+        version: this.version
+      })),
+      timestamp: new Date().toISOString()
+    };
+
+    this.http.post(`${this.apiUrl}/monitoring/performance/batch`, performanceData).pipe(
+      catchError(err => {
+        console.error('Failed to send performance reports to backend:', err);
+        return of(null);
+      })
+    ).subscribe({
+      next: () => {
+        console.log(`Sent ${reports.length} performance reports to monitoring service`);
+      }
     });
 
-    console.log(`Sent ${reports.length} performance reports to monitoring service`);
+    // Also track in analytics if enabled
+    if (this.enableAnalytics) {
+      reports.forEach(report => {
+        this.analytics.trackEvent({
+          action: 'performance_report',
+          category: 'monitoring',
+          label: 'page_performance',
+          custom_parameters: {
+            metrics: report.metrics,
+            url: report.url,
+            timestamp: report.timestamp.toISOString(),
+            user_agent: report.userAgent,
+            connection_type: report.connectionType,
+            session_id: this.sessionId,
+            version: this.version
+          }
+        });
+      });
+    }
   }
 
   private getErrorSeverity(message: string): 'low' | 'medium' | 'high' {
@@ -247,5 +309,103 @@ export class MonitoringService implements ErrorHandler {
   clearQueues(): void {
     this.errorQueue = [];
     this.performanceQueue = [];
+  }
+
+  // Data consistency monitoring
+  trackDataConsistency(dataType: string, localCount: number, serverCount: number): void {
+    if (localCount !== serverCount) {
+      const consistencyData = {
+        dataType,
+        localCount,
+        serverCount,
+        discrepancy: Math.abs(localCount - serverCount),
+        timestamp: new Date().toISOString(),
+        url: window.location.href,
+        sessionId: this.sessionId,
+        version: this.version
+      };
+
+      this.http.post(`${this.apiUrl}/monitoring/data-consistency`, consistencyData).pipe(
+        catchError(err => {
+          console.error('Failed to send data consistency report:', err);
+          return of(null);
+        })
+      ).subscribe();
+
+      console.warn('Data consistency issue detected:', consistencyData);
+    }
+  }
+
+  // API response monitoring
+  trackApiResponse(endpoint: string, responseTime: number, status: number, success: boolean): void {
+    const apiData = {
+      endpoint,
+      responseTime,
+      status,
+      success,
+      timestamp: new Date().toISOString(),
+      sessionId: this.sessionId,
+      version: this.version
+    };
+
+    this.http.post(`${this.apiUrl}/monitoring/api-performance`, apiData).pipe(
+      catchError(err => {
+        console.error('Failed to send API performance data:', err);
+        return of(null);
+      })
+    ).subscribe();
+  }
+
+  // System health check
+  checkSystemHealth(): void {
+    const healthData = {
+      timestamp: new Date().toISOString(),
+      userAgent: navigator.userAgent,
+      screenResolution: `${screen.width}x${screen.height}`,
+      viewportSize: `${window.innerWidth}x${window.innerHeight}`,
+      connectionType: this.getConnectionType(),
+      onlineStatus: navigator.onLine,
+      sessionId: this.sessionId,
+      version: this.version,
+      buildTimestamp: environment.buildTimestamp
+    };
+
+    this.http.post(`${this.apiUrl}/monitoring/health`, healthData).pipe(
+      catchError(err => {
+        console.error('Failed to send health data:', err);
+        return of(null);
+      })
+    ).subscribe();
+  }
+
+  private generateSessionId(): string {
+    return Date.now().toString(36) + Math.random().toString(36).substr(2);
+  }
+
+  private storeErrorsLocally(errors: ErrorReport[]): void {
+    try {
+      const storedErrors = JSON.parse(localStorage.getItem('pendingErrors') || '[]');
+      const updatedErrors = [...storedErrors, ...errors];
+      // Keep only last 20 errors to prevent storage overflow
+      if (updatedErrors.length > 20) {
+        updatedErrors.splice(0, updatedErrors.length - 20);
+      }
+      localStorage.setItem('pendingErrors', JSON.stringify(updatedErrors));
+    } catch (e) {
+      console.error('Failed to store errors locally:', e);
+    }
+  }
+
+  // Send pending errors when connection is restored
+  sendPendingErrors(): void {
+    try {
+      const errors = JSON.parse(localStorage.getItem('pendingErrors') || '[]');
+      if (errors.length > 0) {
+        this.sendErrorReports(errors);
+        localStorage.removeItem('pendingErrors');
+      }
+    } catch (e) {
+      console.error('Failed to send pending errors:', e);
+    }
   }
 }

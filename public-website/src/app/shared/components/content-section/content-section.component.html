@@ -113,9 +113,9 @@
         <h2 *ngIf="section.title" class="section-title">{{ section.title }}</h2>
         <blockquote class="testimonial-quote">
           <p>{{ section.content }}</p>
-          <footer *ngIf="section.metadata?.author">
-            <cite>{{ section.metadata.author }}</cite>
-            <span *ngIf="section.metadata.role" class="author-role">{{ section.metadata.role }}</span>
+          <footer *ngIf="section.metadata?.['author']">
+            <cite>{{ section.metadata?.['author'] }}</cite>
+            <span *ngIf="section.metadata?.['role']" class="author-role">{{ section.metadata?.['role'] }}</span>
           </footer>
         </blockquote>
       </div>
