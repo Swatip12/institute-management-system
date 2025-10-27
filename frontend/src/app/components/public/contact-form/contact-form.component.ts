@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -156,6 +157,26 @@ import { HttpClient } from '@angular/common/http';
       max-width: 1200px;
       margin: 0 auto;
       padding: 40px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, #f8f9ff 0%, #e8ecff 50%, #f0f4ff 100%);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease-in-out infinite;
+      z-index: -1;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
     }
 
     .contact-header {
@@ -197,10 +218,44 @@ import { HttpClient } from '@angular/common/http';
       align-items: center;
       gap: 20px;
       padding: 24px;
-      background: white;
-      border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-      border-left: 4px solid #667eea;
+      background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.9));
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(102, 126, 234, 0.2);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .info-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(180deg, #667eea, #764ba2);
+    }
+
+    .info-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .info-card:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 15px 40px rgba(102, 126, 234, 0.15);
+    }
+
+    .info-card:hover::after {
+      left: 100%;
     }
 
     .info-card mat-icon {
@@ -223,8 +278,30 @@ import { HttpClient } from '@angular/common/http';
     }
 
     .contact-form-card {
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1) !important;
-      border-radius: 20px !important;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1) !important;
+      border-radius: 25px !important;
+      background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.9)) !important;
+      backdrop-filter: blur(20px) !important;
+      border: 1px solid rgba(255,255,255,0.3) !important;
+      position: relative !important;
+      overflow: hidden !important;
+    }
+
+    .contact-form-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #f5576c);
+      background-size: 300% 100%;
+      animation: gradientMove 3s ease-in-out infinite;
+    }
+
+    @keyframes gradientMove {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
     }
 
     .contact-form {
@@ -259,6 +336,37 @@ import { HttpClient } from '@angular/common/http';
       font-weight: 600 !important;
       font-size: 1.1rem !important;
       text-transform: none !important;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      position: relative !important;
+      overflow: hidden !important;
+    }
+
+    .submit-btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255,255,255,0.3);
+      border-radius: 50%;
+      transition: all 0.3s ease;
+      transform: translate(-50%, -50%);
+    }
+
+    .submit-btn:hover:not(:disabled) {
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4) !important;
+    }
+
+    .submit-btn:hover:not(:disabled)::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.7 !important;
+      cursor: not-allowed !important;
     }
 
     @media (max-width: 768px) {
@@ -278,14 +386,15 @@ import { HttpClient } from '@angular/common/http';
     }
   `]
 })
-export class ContactFormComponent {
+export class ContactFormComponent implements OnInit {
   contactForm: FormGroup;
   submitting = false;
 
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute
   ) {
     this.contactForm = this.fb.group({
       name: ['', [Validators.required]],
@@ -297,11 +406,33 @@ export class ContactFormComponent {
     });
   }
 
+  ngOnInit(): void {
+    // Check for query parameters from course enrollment
+    this.route.queryParams.subscribe(params => {
+      if (params['course']) {
+        this.contactForm.patchValue({
+          courseInterest: params['course'],
+          subject: params['action'] === 'enroll' ? `Enrollment Inquiry - ${params['course']}` : `Course Inquiry - ${params['course']}`,
+          message: params['action'] === 'enroll' 
+            ? `Hi! I'm interested in enrolling in ${params['course']}. Please send enrollment details.`
+            : `Hi! I'd like to learn more about ${params['course']}.`
+        });
+      }
+    });
+  }
+
   onSubmit(): void {
     if (this.contactForm.valid) {
       this.submitting = true;
       
       const formData = this.contactForm.value;
+      
+      // Trim whitespace from form data
+      Object.keys(formData).forEach(key => {
+        if (typeof formData[key] === 'string') {
+          formData[key] = formData[key].trim();
+        }
+      });
       
       this.http.post('http://localhost:8080/api/public/contact', formData).subscribe({
         next: (response: any) => {
@@ -314,8 +445,20 @@ export class ContactFormComponent {
         },
         error: (error) => {
           console.error('Error sending message:', error);
-          this.snackBar.open('Failed to send message. Please try again later.', 'Close', {
-            duration: 5000,
+          let errorMessage = 'Failed to send message. Please try again later.';
+          
+          if (error.status === 0) {
+            errorMessage = 'Unable to connect to server. Please check your internet connection.';
+          } else if (error.status === 400) {
+            errorMessage = 'Please check your form data and try again.';
+          } else if (error.status === 500) {
+            errorMessage = 'Server error. Please try again in a few moments.';
+          } else if (error.error && error.error.message) {
+            errorMessage = error.error.message;
+          }
+          
+          this.snackBar.open(errorMessage, 'Close', {
+            duration: 8000,
             panelClass: ['error-snackbar']
           });
           this.submitting = false;

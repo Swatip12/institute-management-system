@@ -10,6 +10,8 @@ public class Message {
 
     private String senderName;
     private String email;
+    
+    @Column(length = 2000)
     private String content;
 
     public Message() {}
