@@ -25,5 +25,9 @@ export const routes: Routes = [
     {
         path: 'messages',
         loadComponent: () => import('./components/messages/message-list/message-list.component').then(m => m.MessageListComponent)
+    },
+    {
+        path: 'contact',
+        loadComponent: () => import('./components/public/contact-form/contact-form.component').then(m => m.ContactFormComponent)
     }
 ];

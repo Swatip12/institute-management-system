@@ -8,6 +8,7 @@ import { CourseService } from '../../services/course.service';
 import { StudentService } from '../../services/student.service';
 import { MessageService } from '../../services/message.service';
 import { forkJoin } from 'rxjs';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,7 +18,8 @@ import { forkJoin } from 'rxjs';
     MatCardModule,
     MatIconModule,
     MatButtonModule,
-    RouterModule
+    RouterModule,
+    MatProgressSpinnerModule
   ],
   template: `
     <!-- 🌟 Hero Section with Animated Background -->
