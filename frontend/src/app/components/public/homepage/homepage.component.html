@@ -1,0 +1,166 @@
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="hero-background">
+    <div class="floating-shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+    </div>
+    
+    <!-- Particle Effects -->
+    <div class="particles">
+      <div class="particle" *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]" 
+           [style.animation-delay]="(i * 0.5) + 's'"></div>
+    </div>
+  </div>
+  
+  <div class="hero-content">
+    <div class="hero-text">
+      <h1 class="hero-title">Excellence Institute</h1>
+      <p class="hero-subtitle">Empowering Minds, Shaping Futures</p>
+      <p class="hero-description">
+        Transform your career with our world-class courses in technology, business, and innovation. 
+        Join thousands of successful graduates who have achieved their dreams with us.
+      </p>
+      <div class="hero-actions">
+        <button mat-raised-button color="primary" class="cta-button" routerLink="/courses">
+          <mat-icon>school</mat-icon>
+          Explore Courses
+        </button>
+        <button mat-button class="secondary-button" routerLink="/contact">
+          <mat-icon>contact_mail</mat-icon>
+          Get in Touch
+        </button>
+      </div>
+    </div>
+    
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-number">{{ instituteInfo?.statistics?.totalStudents || 1500 }}</div>
+        <div class="stat-label">Happy Students</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">{{ instituteInfo?.statistics?.totalCourses || 25 }}</div>
+        <div class="stat-label">Expert Courses</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">{{ instituteInfo?.statistics?.yearsOfExperience || 15 }}</div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">{{ instituteInfo?.statistics?.successRate || 95 }}%</div>
+        <div class="stat-label">Success Rate</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Why Choose Excellence Institute?</h2>
+      <p>We provide comprehensive education solutions with modern teaching methods</p>
+    </div>
+    
+    <div class="features-grid">
+      <div class="feature-card" *ngFor="let feature of features">
+        <div class="feature-icon">
+          <mat-icon>{{ feature.icon }}</mat-icon>
+        </div>
+        <h3>{{ feature.title }}</h3>
+        <p>{{ feature.description }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Courses Preview Section -->
+<section class="courses-preview-section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Popular Courses</h2>
+      <p>Discover our most sought-after programs designed for career success</p>
+    </div>
+    
+    <div class="courses-grid">
+      <mat-card class="course-card" *ngFor="let course of popularCourses">
+        <div class="course-image">
+          <mat-icon>{{ course.icon }}</mat-icon>
+        </div>
+        <mat-card-content>
+          <h3>{{ course.name }}</h3>
+          <p>{{ course.shortDescription }}</p>
+          <div class="course-meta">
+            <span class="duration">
+              <mat-icon>schedule</mat-icon>
+              {{ course.duration }}
+            </span>
+            <span class="level">
+              <mat-icon>trending_up</mat-icon>
+              {{ course.level }}
+            </span>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button color="primary" (click)="learnMore(course)">Learn More</button>
+          <button mat-raised-button color="primary" (click)="enrollNow(course)">Enroll Now</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    
+    <div class="view-all-courses">
+      <button mat-raised-button color="primary" routerLink="/courses" class="view-all-btn">
+        <mat-icon>library_books</mat-icon>
+        View All Courses
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="testimonials-section">
+  <div class="container">
+    <div class="section-header">
+      <h2>What Our Students Say</h2>
+      <p>Real stories from our successful graduates</p>
+    </div>
+    
+    <div class="testimonials-grid">
+      <div class="testimonial-card" *ngFor="let testimonial of testimonials">
+        <div class="testimonial-content">
+          <p>"{{ testimonial.content }}"</p>
+        </div>
+        <div class="testimonial-author">
+          <div class="author-avatar">
+            <mat-icon>person</mat-icon>
+          </div>
+          <div class="author-info">
+            <h4>{{ testimonial.name }}</h4>
+            <span>{{ testimonial.course }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-content">
+      <h2>Ready to Start Your Journey?</h2>
+      <p>Join thousands of students who have transformed their careers with us</p>
+      <div class="cta-actions">
+        <button mat-raised-button color="primary" class="cta-button" routerLink="/contact">
+          <mat-icon>rocket_launch</mat-icon>
+          Get Started Today
+        </button>
+        <button mat-button class="secondary-button" routerLink="/courses">
+          <mat-icon>explore</mat-icon>
+          Browse Courses
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

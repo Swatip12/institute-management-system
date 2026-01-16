@@ -48,7 +48,7 @@
   - Verify dashboard renders with all animations working
   - _Requirements: 1.1, 1.2, 2.1, 2.2_
 
-- [ ] 4. Extract styles from homepage component (9.53 KB)
+- [x] 4. Extract styles from homepage component (9.53 KB)
 
 
   - Create frontend/src/app/components/public/homepage/homepage.component.scss

@@ -1,0 +1,653 @@
+/* 🎨 Homepage Component Styles */
+/* Extracted from inline styles for CSS budget optimization */
+
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+@import '../../../styles/animations';
+
+/* ============================================
+   🎯 HERO SECTION
+   ============================================ */
+
+.hero-section {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: $primary-gradient-extended;
+  color: white;
+  animation: gradientShift 10s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+  0%, 100% { background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%); }
+  25% { background: linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #4facfe 100%); }
+  50% { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 50%, #667eea 100%); }
+  75% { background: linear-gradient(135deg, #764ba2 0%, #667eea 50%, #f093fb 100%); }
+}
+
+.hero-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: $z-index-base;
+}
+
+/* ============================================
+   🌊 FLOATING SHAPES
+   ============================================ */
+
+.floating-shapes {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.shape {
+  position: absolute;
+  background: linear-gradient(45deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+  backdrop-filter: blur(10px);
+  border: $border-width-thin solid $border-color-light;
+  animation: float 20s infinite ease-in-out;
+}
+
+.shape-1 {
+  width: 300px;
+  height: 300px;
+  top: 10%;
+  left: 10%;
+  border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
+  animation-delay: 0s;
+}
+
+.shape-2 {
+  width: 200px;
+  height: 200px;
+  top: 60%;
+  right: 15%;
+  border-radius: 38% 62% 63% 37% / 70% 33% 67% 30%;
+  animation-delay: 7s;
+}
+
+.shape-3 {
+  width: 150px;
+  height: 150px;
+  bottom: 20%;
+  left: 60%;
+  border-radius: 49% 51% 48% 52% / 62% 44% 56% 38%;
+  animation-delay: 14s;
+}
+
+@keyframes float {
+  0%, 100% { 
+    transform: translateY(0px) rotate(0deg) scale(1);
+    border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
+  }
+  25% { 
+    transform: translateY(-30px) rotate(90deg) scale(1.1);
+    border-radius: 38% 62% 63% 37% / 70% 33% 67% 30%;
+  }
+  50% { 
+    transform: translateY(-60px) rotate(180deg) scale(0.9);
+    border-radius: 49% 51% 48% 52% / 62% 44% 56% 38%;
+  }
+  75% { 
+    transform: translateY(-30px) rotate(270deg) scale(1.05);
+    border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
+  }
+}
+
+/* ============================================
+   ✨ PARTICLE EFFECTS
+   ============================================ */
+
+.particles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: $border-radius-circle;
+  animation: particleFloat 15s linear infinite;
+}
+
+.particle:nth-child(1) { left: 10%; animation-duration: 12s; }
+.particle:nth-child(2) { left: 20%; animation-duration: 18s; }
+.particle:nth-child(3) { left: 30%; animation-duration: 14s; }
+.particle:nth-child(4) { left: 40%; animation-duration: 16s; }
+.particle:nth-child(5) { left: 50%; animation-duration: 13s; }
+.particle:nth-child(6) { left: 60%; animation-duration: 17s; }
+.particle:nth-child(7) { left: 70%; animation-duration: 15s; }
+.particle:nth-child(8) { left: 80%; animation-duration: 19s; }
+.particle:nth-child(9) { left: 90%; animation-duration: 11s; }
+.particle:nth-child(10) { left: 95%; animation-duration: 20s; }
+
+@keyframes particleFloat {
+  0% {
+    transform: translateY(100vh) scale(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100vh) scale(1);
+    opacity: 0;
+  }
+}
+
+/* ============================================
+   📝 HERO CONTENT
+   ============================================ */
+
+.hero-content {
+  position: relative;
+  z-index: $z-index-dropdown;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 $spacing-lg;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.hero-title {
+  font-size: $font-size-5xl * 1.33; // 4rem
+  font-weight: $font-weight-bold;
+  margin: 0 0 $spacing-lg 0;
+  font-family: $font-family-heading;
+  @include gradient-text(linear-gradient(45deg, #fff, #f0f0f0, #fff, #e0e0e0));
+  background-size: 400% 400%;
+  animation: shimmer 3s ease-in-out infinite;
+  text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  position: relative;
+
+  &::before {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    @include gradient-text(linear-gradient(45deg, transparent, rgba(255,255,255,0.4), transparent));
+    background-size: 200% 200%;
+    animation: shine 2s linear infinite;
+  }
+}
+
+@keyframes shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes shine {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.hero-subtitle {
+  font-size: $font-size-2xl;
+  margin: 0 0 $spacing-lg 0;
+  opacity: $opacity-active;
+  font-weight: $font-weight-light;
+}
+
+.hero-description {
+  font-size: $font-size-lg;
+  line-height: 1.6;
+  margin: 0 0 $spacing-2xl 0;
+  opacity: $opacity-hover;
+}
+
+.hero-actions {
+  display: flex;
+  gap: $spacing-lg;
+  flex-wrap: wrap;
+}
+
+.cta-button {
+  @include button-gradient;
+  padding: $spacing-md $spacing-xl !important;
+  font-size: $font-size-lg !important;
+  border-radius: $border-radius-3xl !important;
+  font-weight: $font-weight-semibold !important;
+  text-transform: none !important;
+  box-shadow: $shadow-button !important;
+}
+
+.secondary-button {
+  padding: $spacing-md $spacing-xl !important;
+  font-size: $font-size-lg !important;
+  border-radius: $border-radius-3xl !important;
+  font-weight: $font-weight-semibold !important;
+  text-transform: none !important;
+  border: $border-width-medium solid $border-color-light !important;
+  color: white !important;
+}
+
+/* ============================================
+   📊 HERO STATS
+   ============================================ */
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-xl;
+}
+
+.stat-item {
+  text-align: center;
+  padding: $spacing-xl $spacing-lg;
+  @include glass-effect-dark(0.1, 15px);
+  border-radius: $border-radius-xl;
+  position: relative;
+  overflow: hidden;
+  transition: $transition-smooth;
+  cursor: pointer;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+    transform: rotate(45deg);
+    transition: all 0.6s ease;
+    opacity: 0;
+  }
+
+  &:hover {
+    transform: translateY(-10px) scale(1.05);
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: $shadow-float;
+
+    &::before {
+      opacity: 1;
+      animation: sweep 1.5s ease-in-out;
+    }
+  }
+}
+
+@keyframes sweep {
+  0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+  100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
+.stat-number {
+  font-size: $font-size-5xl;
+  font-weight: $font-weight-bold;
+  margin-bottom: $spacing-sm;
+  font-family: $font-family-heading;
+}
+
+.stat-label {
+  font-size: $font-size-base;
+  opacity: $opacity-hover;
+}
+
+/* ============================================
+   🌟 FEATURES SECTION
+   ============================================ */
+
+.features-section {
+  padding: 100px 0;
+  background: #f8f9ff;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 $spacing-lg;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 60px;
+
+  h2 {
+    font-size: $font-size-4xl;
+    font-weight: $font-weight-bold;
+    color: $text-primary;
+    margin: 0 0 $spacing-lg 0;
+    font-family: $font-family-heading;
+  }
+
+  p {
+    font-size: $font-size-xl;
+    color: #666;
+    margin: 0;
+  }
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: $spacing-2xl;
+}
+
+.feature-card {
+  text-align: center;
+  padding: $spacing-2xl $spacing-xl;
+  background: white;
+  border-radius: $border-radius-xl;
+  box-shadow: $shadow-card;
+  transition: $transition-smooth;
+
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: $shadow-deep;
+  }
+
+  h3 {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+    margin: 0 0 $spacing-lg 0;
+  }
+
+  p {
+    color: #666;
+    line-height: 1.6;
+    margin: 0;
+  }
+}
+
+.feature-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto $spacing-xl auto;
+  background: $primary-gradient;
+  border-radius: $border-radius-circle;
+  @include flex-center;
+  color: white;
+
+  mat-icon {
+    font-size: $font-size-4xl !important;
+    width: $font-size-4xl !important;
+    height: $font-size-4xl !important;
+  }
+}
+
+/* ============================================
+   📚 COURSES PREVIEW SECTION
+   ============================================ */
+
+.courses-preview-section {
+  padding: 100px 0;
+  background: white;
+}
+
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: $spacing-xl;
+  margin-bottom: 60px;
+}
+
+.course-card {
+  @include card-base;
+  @include card-hover-effect;
+  border-radius: $border-radius-xl !important;
+  overflow: hidden !important;
+
+  h3 {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+    margin: 0 0 $spacing-md 0;
+  }
+
+  p {
+    color: #666;
+    line-height: 1.5;
+    margin: 0 0 $spacing-lg 0;
+  }
+
+  mat-card-actions {
+    padding: $spacing-md $spacing-lg !important;
+    gap: $spacing-md !important;
+    @include flex-between;
+  }
+
+  button {
+    border-radius: $border-radius-xl !important;
+    font-weight: $font-weight-medium !important;
+    text-transform: none !important;
+    transition: $transition-bounce !important;
+    position: relative !important;
+    overflow: hidden !important;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255,255,255,0.3);
+      border-radius: $border-radius-circle;
+      transition: all 0.3s ease;
+      transform: translate(-50%, -50%);
+    }
+
+    &:hover {
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: $shadow-button;
+
+      &::before {
+        width: 300px;
+        height: 300px;
+      }
+    }
+
+    &:active {
+      transform: translateY(0) scale(0.98);
+    }
+  }
+}
+
+.course-image {
+  height: 200px;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  @include flex-center;
+  color: white;
+
+  mat-icon {
+    font-size: 4rem !important;
+    width: 4rem !important;
+    height: 4rem !important;
+  }
+}
+
+.course-meta {
+  display: flex;
+  gap: $spacing-lg;
+  margin-bottom: $spacing-lg;
+
+  span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #666;
+    font-size: $font-size-sm;
+  }
+
+  mat-icon {
+    font-size: $font-size-xl !important;
+    width: $font-size-xl !important;
+    height: $font-size-xl !important;
+  }
+}
+
+.view-all-courses {
+  text-align: center;
+}
+
+.view-all-btn {
+  @include button-gradient;
+  padding: $spacing-md $spacing-2xl !important;
+  font-size: $font-size-lg !important;
+  border-radius: $border-radius-3xl !important;
+  font-weight: $font-weight-semibold !important;
+  text-transform: none !important;
+}
+
+/* ============================================
+   💬 TESTIMONIALS SECTION
+   ============================================ */
+
+.testimonials-section {
+  padding: 100px 0;
+  background: #f8f9ff;
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: $spacing-xl;
+}
+
+.testimonial-card {
+  background: white;
+  padding: $spacing-2xl $spacing-xl;
+  border-radius: $border-radius-xl;
+  box-shadow: $shadow-card;
+  transition: $transition-smooth;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+}
+
+.testimonial-content {
+  margin-bottom: $spacing-xl;
+
+  p {
+    font-size: $font-size-lg;
+    line-height: 1.6;
+    color: $text-primary;
+    font-style: italic;
+    margin: 0;
+  }
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+}
+
+.author-avatar {
+  width: 50px;
+  height: 50px;
+  background: $primary-gradient;
+  border-radius: $border-radius-circle;
+  @include flex-center;
+  color: white;
+}
+
+.author-info {
+  h4 {
+    margin: 0 0 5px 0;
+    color: $text-primary;
+    font-weight: $font-weight-semibold;
+  }
+
+  span {
+    color: #666;
+    font-size: $font-size-sm;
+  }
+}
+
+/* ============================================
+   🚀 CTA SECTION
+   ============================================ */
+
+.cta-section {
+  padding: 100px 0;
+  background: $primary-gradient;
+  color: white;
+  text-align: center;
+}
+
+.cta-content {
+  h2 {
+    font-size: $font-size-4xl;
+    font-weight: $font-weight-bold;
+    margin: 0 0 $spacing-lg 0;
+    font-family: $font-family-heading;
+  }
+
+  p {
+    font-size: $font-size-xl;
+    margin: 0 0 $spacing-2xl 0;
+    opacity: $opacity-active;
+  }
+}
+
+.cta-actions {
+  display: flex;
+  gap: $spacing-lg;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ============================================
+   📱 RESPONSIVE DESIGN
+   ============================================ */
+
+@include mobile {
+  .hero-content {
+    grid-template-columns: 1fr;
+    gap: $spacing-2xl;
+    text-align: center;
+  }
+
+  .hero-title {
+    font-size: $font-size-4xl;
+  }
+
+  .hero-stats {
+    grid-template-columns: 1fr 1fr;
+    gap: $spacing-lg;
+  }
+
+  .stat-number {
+    font-size: $font-size-3xl;
+  }
+
+  .section-header h2 {
+    font-size: $font-size-3xl;
+  }
+
+  .features-grid,
+  .courses-grid,
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-actions,
+  .cta-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .cta-button,
+  .secondary-button {
+    width: 100%;
+    max-width: 300px;
+  }
+}
