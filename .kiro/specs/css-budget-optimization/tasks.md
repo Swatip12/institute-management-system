@@ -36,7 +36,9 @@
   - **Property 4: Extracted components use external stylesheets**
   - **Validates: Requirements 2.2**
 
-- [ ] 3. Extract styles from dashboard component (12.36 KB)
+- [x] 3. Extract styles from dashboard component (12.36 KB)
+
+
   - Create frontend/src/app/components/dashboard/dashboard.component.scss
   - Copy all inline styles from dashboard.component.ts to the new SCSS file
   - Identify and extract duplicate animation keyframes to _animations.scss
@@ -47,6 +49,8 @@
   - _Requirements: 1.1, 1.2, 2.1, 2.2_
 
 - [ ] 4. Extract styles from homepage component (9.53 KB)
+
+
   - Create frontend/src/app/components/public/homepage/homepage.component.scss
   - Copy inline styles to external SCSS file
   - Refactor common patterns using shared mixins

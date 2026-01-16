@@ -58,9 +58,10 @@
    ============================================ */
 
 @mixin pulse-animation($duration: 2s, $scale: 1.05) {
-  animation: pulse-#{$duration}-#{$scale} $duration ease-in-out infinite;
+  $scale-int: floor($scale * 100);
+  animation: pulse-#{$duration}-#{$scale-int} $duration ease-in-out infinite;
   
-  @keyframes pulse-#{$duration}-#{$scale} {
+  @keyframes pulse-#{$duration}-#{$scale-int} {
     0%, 100% { transform: scale(1); }
     50% { transform: scale($scale); }
   }
