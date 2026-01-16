@@ -1,0 +1,166 @@
+/* 🎨 CSS Budget Optimization - Shared Variables */
+/* This file contains all shared color, spacing, and transition variables */
+
+/* ============================================
+   🌈 COLOR PALETTE
+   ============================================ */
+
+/* Primary Gradients */
+$primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+$primary-gradient-extended: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+$secondary-gradient: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+$success-gradient: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+$success-gradient-alt: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+$warning-gradient: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+$danger-gradient: linear-gradient(135deg, #ff8a80 0%, #ff5722 100%);
+$danger-gradient-alt: linear-gradient(135deg, #ff6b6b, #ee5a52);
+$dark-gradient: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+$neon-gradient: linear-gradient(135deg, #00f5ff 0%, #ff00ff 50%, #ffff00 100%);
+
+/* Solid Colors */
+$primary-color: #667eea;
+$secondary-color: #764ba2;
+$accent-color: #f093fb;
+$success-color: #4facfe;
+$warning-color: #fcb69f;
+$danger-color: #ff5722;
+$dark-color: #2c3e50;
+
+/* Background Colors */
+$bg-primary: radial-gradient(circle at 20% 80%, #667eea 0%, transparent 50%), 
+             radial-gradient(circle at 80% 20%, #764ba2 0%, transparent 50%), 
+             radial-gradient(circle at 40% 40%, #f093fb 0%, transparent 50%), 
+             linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+$bg-card: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.8) 100%);
+$bg-glass: rgba(255, 255, 255, 0.95);
+$bg-glass-light: rgba(255, 255, 255, 0.1);
+
+/* Text Colors */
+$text-primary: #2c3e50;
+$text-secondary: #667eea;
+$text-light: rgba(255, 255, 255, 0.9);
+$text-muted: rgba(0, 0, 0, 0.6);
+
+/* ============================================
+   ✨ SHADOWS
+   ============================================ */
+
+$shadow-glow: 0 0 20px rgba(102, 126, 234, 0.3);
+$shadow-neon: 0 0 30px rgba(102, 126, 234, 0.5), 0 0 60px rgba(102, 126, 234, 0.3);
+$shadow-float: 0 20px 60px rgba(0, 0, 0, 0.1), 0 8px 25px rgba(0, 0, 0, 0.08);
+$shadow-deep: 0 30px 80px rgba(0, 0, 0, 0.15), 0 15px 40px rgba(0, 0, 0, 0.1);
+$shadow-card: 0 8px 32px rgba(102, 126, 234, 0.2);
+$shadow-button: 0 8px 25px rgba(102, 126, 234, 0.4);
+$shadow-danger: 0 8px 32px rgba(255, 87, 34, 0.3);
+$shadow-success: 0 8px 32px rgba(76, 175, 80, 0.3);
+
+/* ============================================
+   📐 SPACING & SIZING
+   ============================================ */
+
+$spacing-unit: 8px;
+$spacing-xs: $spacing-unit * 0.5;  // 4px
+$spacing-sm: $spacing-unit;        // 8px
+$spacing-md: $spacing-unit * 2;    // 16px
+$spacing-lg: $spacing-unit * 3;    // 24px
+$spacing-xl: $spacing-unit * 4;    // 32px
+$spacing-2xl: $spacing-unit * 5;   // 40px
+$spacing-3xl: $spacing-unit * 6;   // 48px
+
+/* Border Radius */
+$border-radius-xs: 4px;
+$border-radius-sm: 8px;
+$border-radius-md: 12px;
+$border-radius-lg: 16px;
+$border-radius-xl: 20px;
+$border-radius-2xl: 24px;
+$border-radius-3xl: 30px;
+$border-radius-4xl: 32px;
+$border-radius-full: 50px;
+$border-radius-circle: 50%;
+
+/* ============================================
+   🎯 TRANSITIONS & ANIMATIONS
+   ============================================ */
+
+$transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+$transition-smooth-slow: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+$transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+$transition-elastic: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+$transition-fast: all 0.2s ease-in-out;
+
+/* Animation Durations */
+$duration-fast: 0.2s;
+$duration-normal: 0.3s;
+$duration-slow: 0.6s;
+$duration-very-slow: 1s;
+
+/* ============================================
+   📱 BREAKPOINTS
+   ============================================ */
+
+$breakpoint-xs: 480px;
+$breakpoint-sm: 768px;
+$breakpoint-md: 1024px;
+$breakpoint-lg: 1280px;
+$breakpoint-xl: 1440px;
+
+/* ============================================
+   🎨 Z-INDEX LAYERS
+   ============================================ */
+
+$z-index-base: 1;
+$z-index-dropdown: 100;
+$z-index-sticky: 200;
+$z-index-fixed: 300;
+$z-index-modal-backdrop: 400;
+$z-index-modal: 500;
+$z-index-popover: 600;
+$z-index-tooltip: 700;
+
+/* ============================================
+   📝 TYPOGRAPHY
+   ============================================ */
+
+$font-family-primary: 'Inter', 'Roboto', sans-serif;
+$font-family-heading: 'Poppins', sans-serif;
+$font-family-mono: 'JetBrains Mono', monospace;
+
+$font-size-xs: 0.75rem;   // 12px
+$font-size-sm: 0.875rem;  // 14px
+$font-size-base: 1rem;    // 16px
+$font-size-lg: 1.125rem;  // 18px
+$font-size-xl: 1.25rem;   // 20px
+$font-size-2xl: 1.5rem;   // 24px
+$font-size-3xl: 1.875rem; // 30px
+$font-size-4xl: 2.25rem;  // 36px
+$font-size-5xl: 3rem;     // 48px
+
+$font-weight-light: 300;
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+$font-weight-extrabold: 800;
+$font-weight-black: 900;
+
+/* ============================================
+   🎭 OPACITY LEVELS
+   ============================================ */
+
+$opacity-disabled: 0.5;
+$opacity-hover: 0.8;
+$opacity-active: 0.9;
+$opacity-full: 1;
+
+/* ============================================
+   🔲 BORDERS
+   ============================================ */
+
+$border-width-thin: 1px;
+$border-width-medium: 2px;
+$border-width-thick: 4px;
+
+$border-color-light: rgba(255, 255, 255, 0.2);
+$border-color-primary: rgba(102, 126, 234, 0.3);
+$border-color-dark: rgba(0, 0, 0, 0.1);

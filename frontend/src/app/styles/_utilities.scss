@@ -1,0 +1,433 @@
+/* 🎨 CSS Budget Optimization - Utility Classes */
+/* This file contains common utility classes for quick styling */
+
+@import 'variables';
+@import 'mixins';
+
+/* ============================================
+   🎨 GLASS EFFECT UTILITIES
+   ============================================ */
+
+.glass-effect {
+  @include glass-effect;
+}
+
+.glass-effect-dark {
+  @include glass-effect-dark;
+}
+
+.glass-effect-light {
+  @include glass-effect(0.1, 20px);
+}
+
+/* ============================================
+   ✨ GLOW UTILITIES
+   ============================================ */
+
+.neon-glow {
+  box-shadow: $shadow-neon;
+}
+
+.glow-primary {
+  @include glow-effect($primary-color, 0.5);
+}
+
+.glow-success {
+  @include glow-effect($success-color, 0.5);
+}
+
+.glow-danger {
+  @include glow-effect($danger-color, 0.5);
+}
+
+/* ============================================
+   🎭 ANIMATION UTILITIES
+   ============================================ */
+
+.floating {
+  @include floating-animation(3s, 10px);
+}
+
+.floating-slow {
+  @include floating-animation(5s, 15px);
+}
+
+.pulse {
+  @include pulse-animation(2s, 1.05);
+}
+
+.pulse-fast {
+  @include pulse-animation(1s, 1.03);
+}
+
+/* ============================================
+   📐 FLEXBOX UTILITIES
+   ============================================ */
+
+.flex-center {
+  @include flex-center;
+}
+
+.flex-between {
+  @include flex-between;
+}
+
+.flex-column {
+  @include flex-column;
+}
+
+.flex-column-center {
+  @include flex-column-center;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.flex-nowrap {
+  flex-wrap: nowrap;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.flex-auto {
+  flex: auto;
+}
+
+.flex-none {
+  flex: none;
+}
+
+/* ============================================
+   📏 SPACING UTILITIES
+   ============================================ */
+
+/* Margin utilities */
+.m-0 { margin: 0; }
+.m-xs { margin: $spacing-xs; }
+.m-sm { margin: $spacing-sm; }
+.m-md { margin: $spacing-md; }
+.m-lg { margin: $spacing-lg; }
+.m-xl { margin: $spacing-xl; }
+.m-2xl { margin: $spacing-2xl; }
+
+.mt-0 { margin-top: 0; }
+.mt-xs { margin-top: $spacing-xs; }
+.mt-sm { margin-top: $spacing-sm; }
+.mt-md { margin-top: $spacing-md; }
+.mt-lg { margin-top: $spacing-lg; }
+.mt-xl { margin-top: $spacing-xl; }
+.mt-2xl { margin-top: $spacing-2xl; }
+
+.mb-0 { margin-bottom: 0; }
+.mb-xs { margin-bottom: $spacing-xs; }
+.mb-sm { margin-bottom: $spacing-sm; }
+.mb-md { margin-bottom: $spacing-md; }
+.mb-lg { margin-bottom: $spacing-lg; }
+.mb-xl { margin-bottom: $spacing-xl; }
+.mb-2xl { margin-bottom: $spacing-2xl; }
+
+.ml-0 { margin-left: 0; }
+.ml-xs { margin-left: $spacing-xs; }
+.ml-sm { margin-left: $spacing-sm; }
+.ml-md { margin-left: $spacing-md; }
+.ml-lg { margin-left: $spacing-lg; }
+.ml-xl { margin-left: $spacing-xl; }
+
+.mr-0 { margin-right: 0; }
+.mr-xs { margin-right: $spacing-xs; }
+.mr-sm { margin-right: $spacing-sm; }
+.mr-md { margin-right: $spacing-md; }
+.mr-lg { margin-right: $spacing-lg; }
+.mr-xl { margin-right: $spacing-xl; }
+
+/* Padding utilities */
+.p-0 { padding: 0; }
+.p-xs { padding: $spacing-xs; }
+.p-sm { padding: $spacing-sm; }
+.p-md { padding: $spacing-md; }
+.p-lg { padding: $spacing-lg; }
+.p-xl { padding: $spacing-xl; }
+.p-2xl { padding: $spacing-2xl; }
+
+.pt-0 { padding-top: 0; }
+.pt-xs { padding-top: $spacing-xs; }
+.pt-sm { padding-top: $spacing-sm; }
+.pt-md { padding-top: $spacing-md; }
+.pt-lg { padding-top: $spacing-lg; }
+.pt-xl { padding-top: $spacing-xl; }
+
+.pb-0 { padding-bottom: 0; }
+.pb-xs { padding-bottom: $spacing-xs; }
+.pb-sm { padding-bottom: $spacing-sm; }
+.pb-md { padding-bottom: $spacing-md; }
+.pb-lg { padding-bottom: $spacing-lg; }
+.pb-xl { padding-bottom: $spacing-xl; }
+
+.pl-0 { padding-left: 0; }
+.pl-xs { padding-left: $spacing-xs; }
+.pl-sm { padding-left: $spacing-sm; }
+.pl-md { padding-left: $spacing-md; }
+.pl-lg { padding-left: $spacing-lg; }
+.pl-xl { padding-left: $spacing-xl; }
+
+.pr-0 { padding-right: 0; }
+.pr-xs { padding-right: $spacing-xs; }
+.pr-sm { padding-right: $spacing-sm; }
+.pr-md { padding-right: $spacing-md; }
+.pr-lg { padding-right: $spacing-lg; }
+.pr-xl { padding-right: $spacing-xl; }
+
+/* ============================================
+   📝 TEXT UTILITIES
+   ============================================ */
+
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-justify { text-align: justify; }
+
+.text-uppercase { text-transform: uppercase; }
+.text-lowercase { text-transform: lowercase; }
+.text-capitalize { text-transform: capitalize; }
+
+.text-bold { font-weight: $font-weight-bold; }
+.text-semibold { font-weight: $font-weight-semibold; }
+.text-medium { font-weight: $font-weight-medium; }
+.text-normal { font-weight: $font-weight-normal; }
+.text-light { font-weight: $font-weight-light; }
+
+.text-xs { font-size: $font-size-xs; }
+.text-sm { font-size: $font-size-sm; }
+.text-base { font-size: $font-size-base; }
+.text-lg { font-size: $font-size-lg; }
+.text-xl { font-size: $font-size-xl; }
+.text-2xl { font-size: $font-size-2xl; }
+.text-3xl { font-size: $font-size-3xl; }
+
+.text-primary { color: $primary-color; }
+.text-secondary { color: $secondary-color; }
+.text-success { color: $success-color; }
+.text-warning { color: $warning-color; }
+.text-danger { color: $danger-color; }
+.text-dark { color: $dark-color; }
+.text-white { color: white; }
+
+.text-gradient-primary {
+  @include gradient-text($primary-gradient);
+}
+
+.text-gradient-secondary {
+  @include gradient-text($secondary-gradient);
+}
+
+.text-gradient-neon {
+  @include gradient-text($neon-gradient);
+}
+
+.text-truncate {
+  @include truncate-text(1);
+}
+
+.text-truncate-2 {
+  @include truncate-text(2);
+}
+
+.text-truncate-3 {
+  @include truncate-text(3);
+}
+
+/* ============================================
+   🎨 BACKGROUND UTILITIES
+   ============================================ */
+
+.bg-primary {
+  background: $primary-gradient;
+}
+
+.bg-secondary {
+  background: $secondary-gradient;
+}
+
+.bg-success {
+  background: $success-gradient;
+}
+
+.bg-warning {
+  background: $warning-gradient;
+}
+
+.bg-danger {
+  background: $danger-gradient;
+}
+
+.bg-neon {
+  background: $neon-gradient;
+}
+
+.bg-transparent {
+  background: transparent;
+}
+
+.bg-white {
+  background: white;
+}
+
+/* ============================================
+   🔲 BORDER UTILITIES
+   ============================================ */
+
+.border-none { border: none; }
+.border-thin { border: $border-width-thin solid $border-color-dark; }
+.border-medium { border: $border-width-medium solid $border-color-dark; }
+.border-thick { border: $border-width-thick solid $border-color-dark; }
+
+.border-primary { border-color: $border-color-primary; }
+.border-light { border-color: $border-color-light; }
+
+.rounded-none { border-radius: 0; }
+.rounded-xs { border-radius: $border-radius-xs; }
+.rounded-sm { border-radius: $border-radius-sm; }
+.rounded-md { border-radius: $border-radius-md; }
+.rounded-lg { border-radius: $border-radius-lg; }
+.rounded-xl { border-radius: $border-radius-xl; }
+.rounded-2xl { border-radius: $border-radius-2xl; }
+.rounded-full { border-radius: $border-radius-full; }
+.rounded-circle { border-radius: $border-radius-circle; }
+
+/* ============================================
+   📦 SHADOW UTILITIES
+   ============================================ */
+
+.shadow-none { box-shadow: none; }
+.shadow-glow { box-shadow: $shadow-glow; }
+.shadow-neon { box-shadow: $shadow-neon; }
+.shadow-float { box-shadow: $shadow-float; }
+.shadow-deep { box-shadow: $shadow-deep; }
+.shadow-card { box-shadow: $shadow-card; }
+
+/* ============================================
+   👁️ VISIBILITY UTILITIES
+   ============================================ */
+
+.visible { visibility: visible; }
+.invisible { visibility: hidden; }
+.hidden { display: none; }
+.block { display: block; }
+.inline { display: inline; }
+.inline-block { display: inline-block; }
+
+/* ============================================
+   🎯 POSITION UTILITIES
+   ============================================ */
+
+.relative { position: relative; }
+.absolute { position: absolute; }
+.fixed { position: fixed; }
+.sticky { position: sticky; }
+
+.top-0 { top: 0; }
+.right-0 { right: 0; }
+.bottom-0 { bottom: 0; }
+.left-0 { left: 0; }
+
+/* ============================================
+   🌈 OPACITY UTILITIES
+   ============================================ */
+
+.opacity-0 { opacity: 0; }
+.opacity-25 { opacity: 0.25; }
+.opacity-50 { opacity: 0.5; }
+.opacity-75 { opacity: 0.75; }
+.opacity-100 { opacity: 1; }
+
+/* ============================================
+   🎭 OVERFLOW UTILITIES
+   ============================================ */
+
+.overflow-auto { overflow: auto; }
+.overflow-hidden { overflow: hidden; }
+.overflow-visible { overflow: visible; }
+.overflow-scroll { overflow: scroll; }
+
+.overflow-x-auto { overflow-x: auto; }
+.overflow-y-auto { overflow-y: auto; }
+
+/* ============================================
+   🎨 CURSOR UTILITIES
+   ============================================ */
+
+.cursor-pointer { cursor: pointer; }
+.cursor-default { cursor: default; }
+.cursor-not-allowed { cursor: not-allowed; }
+.cursor-move { cursor: move; }
+
+/* ============================================
+   📱 RESPONSIVE UTILITIES
+   ============================================ */
+
+@include respond-to('sm') {
+  .hidden-mobile { display: none; }
+  .visible-mobile { display: block; }
+}
+
+@include respond-to('md') {
+  .hidden-tablet { display: none; }
+  .visible-tablet { display: block; }
+}
+
+@media (min-width: $breakpoint-md + 1) {
+  .hidden-desktop { display: none; }
+  .visible-desktop { display: block; }
+}
+
+/* ============================================
+   🎯 WIDTH & HEIGHT UTILITIES
+   ============================================ */
+
+.w-full { width: 100%; }
+.w-auto { width: auto; }
+.w-screen { width: 100vw; }
+
+.h-full { height: 100%; }
+.h-auto { height: auto; }
+.h-screen { height: 100vh; }
+
+.max-w-xs { max-width: 320px; }
+.max-w-sm { max-width: 480px; }
+.max-w-md { max-width: 768px; }
+.max-w-lg { max-width: 1024px; }
+.max-w-xl { max-width: 1280px; }
+.max-w-full { max-width: 100%; }
+
+/* ============================================
+   🎪 TRANSITION UTILITIES
+   ============================================ */
+
+.transition-smooth { transition: $transition-smooth; }
+.transition-bounce { transition: $transition-bounce; }
+.transition-elastic { transition: $transition-elastic; }
+.transition-fast { transition: $transition-fast; }
+.transition-none { transition: none; }
+
+/* ============================================
+   🎨 BACKDROP UTILITIES
+   ============================================ */
+
+.backdrop-blur { @include backdrop-blur(20px, 1.1); }
+.backdrop-blur-sm { @include backdrop-blur(10px, 1.05); }
+.backdrop-blur-lg { @include backdrop-blur(30px, 1.15); }
+
+/* ============================================
+   🌟 Z-INDEX UTILITIES
+   ============================================ */
+
+.z-0 { z-index: 0; }
+.z-10 { z-index: 10; }
+.z-20 { z-index: 20; }
+.z-30 { z-index: 30; }
+.z-40 { z-index: 40; }
+.z-50 { z-index: 50; }
+.z-auto { z-index: auto; }

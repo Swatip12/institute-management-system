@@ -1,6 +1,14 @@
 /* 🎨 Ultra-Creative Institute Management System Styles */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
+/* ============================================
+   📦 SHARED STYLE MODULES
+   ============================================ */
+@import 'app/styles/variables';
+@import 'app/styles/mixins';
+@import 'app/styles/animations';
+@import 'app/styles/utilities';
+
 :root {
   /* 🌈 Advanced Color Palette */
   --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
