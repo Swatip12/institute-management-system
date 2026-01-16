@@ -60,6 +60,9 @@
   - _Requirements: 1.1, 1.2, 2.1, 2.2_
 
 - [ ] 5. Extract styles from about component (5.74 KB)
+
+
+
   - Create frontend/src/app/components/public/about/about.component.scss
   - Copy inline styles to external SCSS file
   - Apply shared variables and mixins

@@ -1,0 +1,480 @@
+/* 🎨 About Component Styles - Extracted from inline styles */
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+@import '../../../styles/animations';
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 $spacing-lg;
+}
+
+/* ============================================
+   🎯 HERO SECTION
+   ============================================ */
+
+.about-hero {
+  background: $primary-gradient;
+  color: white;
+  padding: 100px 0;
+  text-align: center;
+}
+
+.hero-content h1 {
+  font-size: $font-size-5xl;
+  font-weight: $font-weight-bold;
+  margin: 0 0 $spacing-lg 0;
+  font-family: $font-family-heading;
+}
+
+.hero-subtitle {
+  font-size: $font-size-2xl;
+  margin: 0 0 $spacing-3xl 0;
+  opacity: $opacity-active;
+  font-weight: $font-weight-light;
+}
+
+.hero-description {
+  font-size: $font-size-xl;
+  line-height: 1.6;
+  max-width: 800px;
+  margin: 0 auto;
+  opacity: $opacity-hover;
+}
+
+/* ============================================
+   🎯 MISSION & VISION SECTION
+   ============================================ */
+
+.mission-vision-section {
+  padding: 100px 0;
+  background: #f8f9ff;
+}
+
+.mission-vision-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+}
+
+.mission-card,
+.vision-card {
+  text-align: center;
+  padding: 50px 40px;
+  background: white;
+  border-radius: $border-radius-3xl;
+  box-shadow: $shadow-float;
+  transition: $transition-smooth;
+}
+
+.mission-card:hover,
+.vision-card:hover {
+  transform: translateY(-10px);
+}
+
+.card-icon {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto $spacing-3xl auto;
+  background: $primary-gradient;
+  border-radius: $border-radius-circle;
+  @include flex-center;
+  color: white;
+}
+
+.card-icon mat-icon {
+  font-size: 3rem !important;
+  width: 3rem !important;
+  height: 3rem !important;
+}
+
+.mission-card h2,
+.vision-card h2 {
+  font-size: $font-size-4xl;
+  font-weight: $font-weight-semibold;
+  color: $text-primary;
+  margin: 0 0 $spacing-3xl 0;
+}
+
+.mission-card p,
+.vision-card p {
+  font-size: $font-size-lg;
+  line-height: 1.7;
+  color: #666;
+  margin: 0;
+}
+
+/* ============================================
+   💎 VALUES SECTION
+   ============================================ */
+
+.values-section {
+  padding: 100px 0;
+  background: white;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.section-header h2 {
+  font-size: $font-size-4xl;
+  font-weight: $font-weight-bold;
+  color: $text-primary;
+  margin: 0 0 $spacing-lg 0;
+  font-family: $font-family-heading;
+}
+
+.section-header p {
+  font-size: $font-size-xl;
+  color: #666;
+  margin: 0;
+}
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: $spacing-2xl;
+}
+
+.value-card {
+  text-align: center;
+  padding: $spacing-2xl $spacing-3xl;
+  background: #f8f9ff;
+  border-radius: $border-radius-xl;
+  transition: $transition-smooth;
+}
+
+.value-card:hover {
+  transform: translateY(-5px);
+  box-shadow: $shadow-float;
+  background: white;
+}
+
+.value-icon {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto $spacing-3xl auto;
+  background: $secondary-gradient;
+  border-radius: $border-radius-circle;
+  @include flex-center;
+  color: white;
+}
+
+.value-icon mat-icon {
+  font-size: 2rem !important;
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.value-card h3 {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  color: $text-primary;
+  margin: 0 0 $spacing-lg 0;
+}
+
+.value-card p {
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ============================================
+   👥 TEAM SECTION
+   ============================================ */
+
+.team-section {
+  padding: 100px 0;
+  background: #f8f9ff;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: $spacing-2xl;
+}
+
+.team-member {
+  background: white;
+  border-radius: $border-radius-xl;
+  padding: $spacing-2xl $spacing-3xl;
+  text-align: center;
+  box-shadow: $shadow-float;
+  transition: $transition-smooth;
+}
+
+.team-member:hover {
+  transform: translateY(-5px);
+}
+
+.member-photo {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto $spacing-3xl auto;
+  background: $primary-gradient;
+  border-radius: $border-radius-circle;
+  @include flex-center;
+  color: white;
+}
+
+.member-photo mat-icon {
+  font-size: 3.5rem !important;
+  width: 3.5rem !important;
+  height: 3.5rem !important;
+}
+
+.member-info h3 {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-semibold;
+  color: $text-primary;
+  margin: 0 0 $spacing-sm 0;
+}
+
+.member-title {
+  font-size: $font-size-lg;
+  color: $primary-color;
+  font-weight: $font-weight-medium;
+  margin: 0 0 $spacing-lg 0;
+}
+
+.member-bio {
+  color: #666;
+  line-height: 1.6;
+  margin: 0 0 $spacing-3xl 0;
+}
+
+.member-expertise {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+  justify-content: center;
+}
+
+.expertise-tag {
+  background: rgba(102, 126, 234, 0.1);
+  color: $primary-color;
+  padding: 6px 12px;
+  border-radius: $border-radius-lg;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+}
+
+/* ============================================
+   📊 STATISTICS SECTION
+   ============================================ */
+
+.statistics-section {
+  padding: 100px 0;
+  background: white;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: $spacing-2xl;
+}
+
+.stat-item {
+  text-align: center;
+  padding: $spacing-2xl $spacing-3xl;
+  background: $primary-gradient;
+  color: white;
+  border-radius: $border-radius-xl;
+  transition: $transition-smooth;
+}
+
+.stat-item:hover {
+  transform: translateY(-5px);
+}
+
+.stat-icon {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto $spacing-lg auto;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: $border-radius-circle;
+  @include flex-center;
+}
+
+.stat-icon mat-icon {
+  font-size: 1.8rem !important;
+  width: 1.8rem !important;
+  height: 1.8rem !important;
+}
+
+.stat-number {
+  font-size: $font-size-5xl;
+  font-weight: $font-weight-bold;
+  margin-bottom: $spacing-sm;
+  font-family: $font-family-heading;
+}
+
+.stat-label {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  margin-bottom: $spacing-sm;
+}
+
+.stat-description {
+  font-size: $font-size-sm;
+  opacity: $opacity-hover;
+}
+
+/* ============================================
+   📅 HISTORY TIMELINE
+   ============================================ */
+
+.history-section {
+  padding: 100px 0;
+  background: #f8f9ff;
+}
+
+.timeline {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: $primary-gradient;
+  transform: translateX(-50%);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 50px;
+}
+
+.timeline-content {
+  background: white;
+  padding: $spacing-3xl;
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-float;
+  position: relative;
+  width: 45%;
+}
+
+.timeline-left .timeline-content {
+  margin-right: auto;
+}
+
+.timeline-right .timeline-content {
+  margin-left: auto;
+}
+
+.timeline-year {
+  background: $primary-gradient;
+  color: white;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $border-radius-xl;
+  font-weight: $font-weight-semibold;
+  display: inline-block;
+  margin-bottom: $spacing-lg;
+}
+
+.timeline-content h3 {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  color: $text-primary;
+  margin: 0 0 $spacing-lg 0;
+}
+
+.timeline-content p {
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ============================================
+   📣 CTA SECTION
+   ============================================ */
+
+.cta-section {
+  padding: 100px 0;
+  background: $primary-gradient;
+  color: white;
+  text-align: center;
+}
+
+.cta-content h2 {
+  font-size: $font-size-4xl;
+  font-weight: $font-weight-bold;
+  margin: 0 0 $spacing-lg 0;
+  font-family: $font-family-heading;
+}
+
+.cta-content p {
+  font-size: $font-size-xl;
+  margin: 0 0 $spacing-2xl 0;
+  opacity: $opacity-active;
+}
+
+.cta-actions {
+  display: flex;
+  gap: $spacing-lg;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.cta-button,
+.secondary-button {
+  padding: 12px 32px !important;
+  font-size: $font-size-lg !important;
+  border-radius: $border-radius-3xl !important;
+  font-weight: $font-weight-semibold !important;
+  text-transform: none !important;
+}
+
+.secondary-button {
+  border: $border-width-medium solid rgba(255,255,255,0.3) !important;
+  color: white !important;
+}
+
+/* ============================================
+   📱 RESPONSIVE DESIGN
+   ============================================ */
+
+@include respond-to('sm') {
+  .hero-content h1 {
+    font-size: $font-size-4xl;
+  }
+
+  .mission-vision-grid {
+    grid-template-columns: 1fr;
+    gap: $spacing-2xl;
+  }
+
+  .values-grid,
+  .team-grid,
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .timeline::before {
+    left: 20px;
+  }
+
+  .timeline-content {
+    width: calc(100% - 60px);
+    margin-left: 60px !important;
+  }
+
+  .cta-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .cta-button,
+  .secondary-button {
+    width: 100%;
+    max-width: 300px;
+  }
+}
