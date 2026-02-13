@@ -20,12 +20,7 @@
   animation: gradientShift 10s ease-in-out infinite;
 }
 
-@keyframes gradientShift {
-  0%, 100% { background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%); }
-  25% { background: linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #4facfe 100%); }
-  50% { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 50%, #667eea 100%); }
-  75% { background: linear-gradient(135deg, #764ba2 0%, #667eea 50%, #f093fb 100%); }
-}
+/* gradientShift animation moved to _animations.scss */
 
 .hero-background {
   position: absolute;
@@ -81,24 +76,7 @@
   animation-delay: 14s;
 }
 
-@keyframes float {
-  0%, 100% { 
-    transform: translateY(0px) rotate(0deg) scale(1);
-    border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
-  }
-  25% { 
-    transform: translateY(-30px) rotate(90deg) scale(1.1);
-    border-radius: 38% 62% 63% 37% / 70% 33% 67% 30%;
-  }
-  50% { 
-    transform: translateY(-60px) rotate(180deg) scale(0.9);
-    border-radius: 49% 51% 48% 52% / 62% 44% 56% 38%;
-  }
-  75% { 
-    transform: translateY(-30px) rotate(270deg) scale(1.05);
-    border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
-  }
-}
+/* float animation moved to _animations.scss */
 
 /* ============================================
    ✨ PARTICLE EFFECTS
@@ -131,22 +109,7 @@
 .particle:nth-child(9) { left: 90%; animation-duration: 11s; }
 .particle:nth-child(10) { left: 95%; animation-duration: 20s; }
 
-@keyframes particleFloat {
-  0% {
-    transform: translateY(100vh) scale(0);
-    opacity: 0;
-  }
-  10% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(-100vh) scale(1);
-    opacity: 0;
-  }
-}
+/* particleFloat animation moved to _animations.scss */
 
 /* ============================================
    📝 HERO CONTENT
@@ -186,15 +149,7 @@
   }
 }
 
-@keyframes shimmer {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
-@keyframes shine {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
+/* shimmer and shine animations moved to _animations.scss */
 
 .hero-subtitle {
   font-size: $font-size-2xl;
@@ -221,19 +176,16 @@
   padding: $spacing-md $spacing-xl !important;
   font-size: $font-size-lg !important;
   border-radius: $border-radius-3xl !important;
-  font-weight: $font-weight-semibold !important;
-  text-transform: none !important;
-  box-shadow: $shadow-button !important;
 }
 
 .secondary-button {
+  @include button-base;
   padding: $spacing-md $spacing-xl !important;
   font-size: $font-size-lg !important;
   border-radius: $border-radius-3xl !important;
-  font-weight: $font-weight-semibold !important;
-  text-transform: none !important;
   border: $border-width-medium solid $border-color-light !important;
   color: white !important;
+  background: transparent !important;
 }
 
 /* ============================================
@@ -281,10 +233,7 @@
   }
 }
 
-@keyframes sweep {
-  0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-  100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
-}
+/* sweep animation moved to _animations.scss */
 
 .stat-number {
   font-size: $font-size-5xl;
@@ -423,35 +372,8 @@
   }
 
   button {
+    @include button-base;
     border-radius: $border-radius-xl !important;
-    font-weight: $font-weight-medium !important;
-    text-transform: none !important;
-    transition: $transition-bounce !important;
-    position: relative !important;
-    overflow: hidden !important;
-
-    &::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      background: rgba(255,255,255,0.3);
-      border-radius: $border-radius-circle;
-      transition: all 0.3s ease;
-      transform: translate(-50%, -50%);
-    }
-
-    &:hover {
-      transform: translateY(-2px) scale(1.05);
-      box-shadow: $shadow-button;
-
-      &::before {
-        width: 300px;
-        height: 300px;
-      }
-    }
 
     &:active {
       transform: translateY(0) scale(0.98);
@@ -501,8 +423,6 @@
   padding: $spacing-md $spacing-2xl !important;
   font-size: $font-size-lg !important;
   border-radius: $border-radius-3xl !important;
-  font-weight: $font-weight-semibold !important;
-  text-transform: none !important;
 }
 
 /* ============================================

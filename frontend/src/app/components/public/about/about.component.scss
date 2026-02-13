@@ -426,16 +426,20 @@
 
 .cta-button,
 .secondary-button {
+  @include button-base;
   padding: 12px 32px !important;
   font-size: $font-size-lg !important;
   border-radius: $border-radius-3xl !important;
-  font-weight: $font-weight-semibold !important;
-  text-transform: none !important;
+}
+
+.cta-button {
+  @include button-gradient;
 }
 
 .secondary-button {
   border: $border-width-medium solid rgba(255,255,255,0.3) !important;
   color: white !important;
+  background: transparent !important;
 }
 
 /* ============================================

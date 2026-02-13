@@ -1,0 +1,123 @@
+<mat-toolbar class="main-toolbar">
+  <div class="toolbar-content">
+    <!-- Logo -->
+    <div class="logo" routerLink="/">
+      <mat-icon class="logo-icon">school</mat-icon>
+      <span class="logo-text">Excellence Institute</span>
+    </div>
+
+    <!-- Desktop Navigation -->
+    <nav class="desktop-nav" *ngIf="!isMobile">
+      <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <mat-icon>home</mat-icon>
+        Home
+      </a>
+      
+      <a mat-button routerLink="/courses" routerLinkActive="active">
+        <mat-icon>library_books</mat-icon>
+        Courses
+      </a>
+      
+      <a mat-button routerLink="/about" routerLinkActive="active">
+        <mat-icon>info</mat-icon>
+        About Us
+      </a>
+      
+      <a mat-button routerLink="/contact" routerLinkActive="active">
+        <mat-icon>contact_mail</mat-icon>
+        Contact
+      </a>
+
+      <!-- Admin Menu -->
+      <button mat-button [matMenuTriggerFor]="adminMenu" class="admin-menu-trigger">
+        <mat-icon>admin_panel_settings</mat-icon>
+        Admin
+        <mat-icon>arrow_drop_down</mat-icon>
+      </button>
+      
+      <mat-menu #adminMenu="matMenu" class="admin-menu">
+        <button mat-menu-item routerLink="/dashboard">
+          <mat-icon>dashboard</mat-icon>
+          Dashboard
+        </button>
+        <button mat-menu-item routerLink="/students">
+          <mat-icon>people</mat-icon>
+          Students
+        </button>
+        <button mat-menu-item routerLink="/messages">
+          <mat-icon>message</mat-icon>
+          Messages
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item routerLink="/admin/settings">
+          <mat-icon>settings</mat-icon>
+          Settings
+        </button>
+      </mat-menu>
+    </nav>
+
+    <!-- Mobile Menu Button -->
+    <button mat-icon-button *ngIf="isMobile" (click)="toggleMobileMenu()" class="mobile-menu-btn">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+
+<!-- Mobile Navigation Drawer -->
+<mat-sidenav-container class="mobile-nav-container" *ngIf="isMobile">
+  <mat-sidenav #drawer class="mobile-nav" mode="over" [opened]="mobileMenuOpen" (closed)="mobileMenuOpen = false">
+    <div class="mobile-nav-header">
+      <div class="mobile-logo">
+        <mat-icon>school</mat-icon>
+        <span>Excellence Institute</span>
+      </div>
+      <button mat-icon-button (click)="drawer.close()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    
+    <nav class="mobile-nav-links">
+      <a mat-button routerLink="/" (click)="drawer.close()" class="mobile-nav-link">
+        <mat-icon>home</mat-icon>
+        Home
+      </a>
+      
+      <a mat-button routerLink="/courses" (click)="drawer.close()" class="mobile-nav-link">
+        <mat-icon>library_books</mat-icon>
+        Courses
+      </a>
+      
+      <a mat-button routerLink="/about" (click)="drawer.close()" class="mobile-nav-link">
+        <mat-icon>info</mat-icon>
+        About Us
+      </a>
+      
+      <a mat-button routerLink="/contact" (click)="drawer.close()" class="mobile-nav-link">
+        <mat-icon>contact_mail</mat-icon>
+        Contact
+      </a>
+
+      <div class="mobile-admin-section">
+        <div class="admin-section-title">
+          <mat-icon>admin_panel_settings</mat-icon>
+          Admin Panel
+        </div>
+        
+        <a mat-button routerLink="/dashboard" (click)="drawer.close()" class="mobile-nav-link admin-link">
+          <mat-icon>dashboard</mat-icon>
+          Dashboard
+        </a>
+        
+        <a mat-button routerLink="/students" (click)="drawer.close()" class="mobile-nav-link admin-link">
+          <mat-icon>people</mat-icon>
+          Students
+        </a>
+        
+        <a mat-button routerLink="/messages" (click)="drawer.close()" class="mobile-nav-link admin-link">
+          <mat-icon>message</mat-icon>
+          Messages
+        </a>
+      </div>
+    </nav>
+  </mat-sidenav>
+</mat-sidenav-container>
