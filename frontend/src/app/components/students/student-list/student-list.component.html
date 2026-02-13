@@ -1,0 +1,183 @@
+<div class="creative-header fade-in">
+  <h1>👥 Student Directory</h1>
+  <p>Explore and manage your institute's student community</p>
+</div>
+
+<div class="student-stats fade-in" style="animation-delay: 0.1s">
+  <div class="stat-card">
+    <div class="stat-icon">
+      <mat-icon>people</mat-icon>
+    </div>
+    <div class="stat-info">
+      <span class="stat-number">{{ students.length }}</span>
+      <span class="stat-label">Total Students</span>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon">
+      <mat-icon>school</mat-icon>
+    </div>
+    <div class="stat-info">
+      <span class="stat-number">{{ getActiveStudents() }}</span>
+      <span class="stat-label">Active Learners</span>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon">
+      <mat-icon>email</mat-icon>
+    </div>
+    <div class="stat-info">
+      <span class="stat-number">{{ getUniqueEmails() }}</span>
+      <span class="stat-label">Email Contacts</span>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="loading" class="loading-spinner fade-in">
+  <mat-spinner diameter="60"></mat-spinner>
+  <p class="loading-text">Loading student directory...</p>
+</div>
+
+<div *ngIf="!loading && students.length === 0" class="no-data fade-in">
+  <mat-card class="empty-state-card">
+    <mat-card-content>
+      <div class="empty-state-content">
+        <mat-icon class="no-data-icon">people_outline</mat-icon>
+        <h3>No Students Registered</h3>
+        <p>The student directory is currently empty. Students will appear here once they register through the system or are added by administrators.</p>
+        <div class="info-note">
+          <mat-icon>info</mat-icon>
+          <span>This is a read-only view. Student registration is handled through separate enrollment processes.</span>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div class="students-container fade-in" *ngIf="!loading && students.length > 0" style="animation-delay: 0.2s">
+  <!-- View Toggle -->
+  <div class="view-controls">
+    <button mat-button class="view-toggle-btn" (click)="toggleView()">
+      <mat-icon>{{ showCards ? 'table_view' : 'view_module' }}</mat-icon>
+      {{ showCards ? 'Table View' : 'Card View' }}
+    </button>
+  </div>
+
+  <!-- Card View -->
+  <div class="students-grid" *ngIf="showCards">
+    <div class="student-card slide-in-left" 
+         *ngFor="let student of students; let i = index"
+         [style.animation-delay]="(i * 0.1) + 's'">
+      <div class="student-header">
+        <div class="student-avatar">
+          <mat-icon>person</mat-icon>
+        </div>
+        <div class="student-info">
+          <h3>{{ student.name }}</h3>
+          <span class="student-id">ID: {{ student.id }}</span>
+        </div>
+        <div class="student-status">
+          <div class="status-indicator active"></div>
+        </div>
+      </div>
+      
+      <div class="student-details">
+        <div class="detail-item">
+          <mat-icon>email</mat-icon>
+          <span>{{ student.email }}</span>
+        </div>
+        <div class="detail-item">
+          <mat-icon>school</mat-icon>
+          <span>Active Student</span>
+        </div>
+      </div>
+      
+      <div class="student-actions">
+        <button mat-button class="action-btn">
+          <mat-icon>visibility</mat-icon>
+          View Profile
+        </button>
+        <button mat-button class="action-btn">
+          <mat-icon>email</mat-icon>
+          Contact
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table View -->
+  <mat-card class="table-container" *ngIf="!showCards">
+    <mat-card-content>
+      <table mat-table [dataSource]="students" class="students-table">
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>
+            <div class="header-content">
+              <mat-icon>tag</mat-icon>
+              <span>Student ID</span>
+            </div>
+          </th>
+          <td mat-cell *matCellDef="let student">
+            <span class="student-id-badge">{{ student.id }}</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>
+            <div class="header-content">
+              <mat-icon>person</mat-icon>
+              <span>Full Name</span>
+            </div>
+          </th>
+          <td mat-cell *matCellDef="let student">
+            <div class="student-name-cell">
+              <div class="name-avatar">
+                <mat-icon>person</mat-icon>
+              </div>
+              <div class="name-info">
+                <span class="name">{{ student.name }}</span>
+                <span class="status">Active Student</span>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef>
+            <div class="header-content">
+              <mat-icon>email</mat-icon>
+              <span>Email Address</span>
+            </div>
+          </th>
+          <td mat-cell *matCellDef="let student">
+            <div class="email-cell">
+              <mat-icon>email</mat-icon>
+              <span>{{ student.email }}</span>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>
+            <div class="header-content">
+              <mat-icon>settings</mat-icon>
+              <span>Actions</span>
+            </div>
+          </th>
+          <td mat-cell *matCellDef="let student">
+            <div class="table-actions">
+              <button mat-icon-button class="action-btn view-btn">
+                <mat-icon>visibility</mat-icon>
+              </button>
+              <button mat-icon-button class="action-btn contact-btn">
+                <mat-icon>email</mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsWithActions"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsWithActions;" class="table-row"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+</div>

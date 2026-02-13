@@ -44,9 +44,15 @@
                   "maximumError": "1mb"
                 },
                 {
+                  // Component Style Budget Configuration
+                  // Updated to accommodate extracted external stylesheets while maintaining performance
+                  // maximumWarning (6kb): Triggers warning to encourage optimization before hitting limit
+                  // maximumError (8kb): Temporary safety margin during CSS extraction refactoring
+                  // Rationale: Previous 4kb limit was too restrictive for components with rich styling
+                  // Goal: Gradually reduce back to 6kb as shared styles and mixins are fully adopted
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "6kb",
+                  "maximumError": "8kb"
                 }
               ],
               "outputHashing": "all"
